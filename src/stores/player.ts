@@ -6,6 +6,15 @@ import { station } from '../data/site'
 // the visitor browses every other page — no second tab, no interruption.
 let audio: HTMLAudioElement | null = null
 
+// If the stream doesn't actually start producing audio within this window we
+// treat it as offline (a dead Icecast mount can "connect" but never play).
+const CONNECT_TIMEOUT_MS = 12000
+let watchdog: ReturnType<typeof setTimeout> | null = null
+
+const OFFLINE_MSG =
+  'We’re off the air right now — the live stream is offline. Please check back soon.'
+const AUTOPLAY_MSG = 'Tap play again to start listening.'
+
 function getAudio(): HTMLAudioElement {
   if (!audio) {
     audio = new Audio()
@@ -34,23 +43,46 @@ export const usePlayerStore = defineStore('player', {
   }),
 
   actions: {
+    clearWatchdog() {
+      if (watchdog) {
+        clearTimeout(watchdog)
+        watchdog = null
+      }
+    },
+
+    // Called when the stream can't be started (offline / errored).
+    fail(message: string) {
+      this.clearWatchdog()
+      const a = getAudio()
+      a.pause()
+      a.removeAttribute('src')
+      a.load()
+      this.isLoading = false
+      this.isPlaying = false
+      this.error = message
+    },
+
     // Wire up media-element events once, on first use.
     bind() {
       if (this.bound) return
       const a = getAudio()
       a.volume = this.volume
+      // Real audio is flowing — we're truly on the air.
       a.addEventListener('playing', () => {
+        this.clearWatchdog()
         this.isLoading = false
         this.isPlaying = true
         this.error = null
       })
-      a.addEventListener('waiting', () => (this.isLoading = true))
-      a.addEventListener('pause', () => (this.isPlaying = false))
-      a.addEventListener('error', () => {
-        this.isLoading = false
-        this.isPlaying = false
-        this.error = 'Stream unavailable right now — please try again shortly.'
+      // Buffering mid-playback: show connecting, but don't flag an error yet.
+      a.addEventListener('waiting', () => {
+        if (this.isPlaying || this.isLoading) this.isLoading = true
       })
+      a.addEventListener('pause', () => (this.isPlaying = false))
+      // The browser could not load/decode the source: the stream is down.
+      a.addEventListener('error', () => this.fail(OFFLINE_MSG))
+      // Server closed the connection / mount ended.
+      a.addEventListener('ended', () => this.fail(OFFLINE_MSG))
       this.bound = true
     },
 
@@ -58,16 +90,35 @@ export const usePlayerStore = defineStore('player', {
       this.bind()
       const a = getAudio()
       // Reassign the source so a live stream always resumes at the live edge.
-      if (!a.src) a.src = station.streamUrl
+      a.src = station.streamUrl
+      a.load()
       this.isLoading = true
       this.error = null
-      a.play().catch(() => {
-        this.isLoading = false
-        this.error = 'Press play once more to start the stream.'
-      })
+
+      // Watchdog: if we never reach "playing", the mount is offline.
+      this.clearWatchdog()
+      watchdog = setTimeout(() => {
+        if (!this.isPlaying) this.fail(OFFLINE_MSG)
+      }, CONNECT_TIMEOUT_MS)
+
+      const p = a.play()
+      if (p) {
+        p.catch((err: DOMException) => {
+          // Autoplay policy blocked it — a normal, recoverable case.
+          if (err && err.name === 'NotAllowedError') {
+            this.clearWatchdog()
+            this.isLoading = false
+            this.error = AUTOPLAY_MSG
+          } else {
+            // NotSupportedError / network abort → stream is unavailable.
+            this.fail(OFFLINE_MSG)
+          }
+        })
+      }
     },
 
     pause() {
+      this.clearWatchdog()
       const a = getAudio()
       a.pause()
       // Drop the buffer so we don't fall behind the live broadcast.
