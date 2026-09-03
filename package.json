@@ -1,0 +1,27 @@
+{
+  "name": "kwhr-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Way High Radio (KWHR 90.5 FM Ward / 102.9 FM Nederland) — modern Vue + Vuetify single-page app",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "pinia": "^2.2.2",
+    "vue": "^3.5.6",
+    "vue-router": "^4.4.5",
+    "vuetify": "^3.7.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.4",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8",
+    "vite-plugin-pwa": "^0.20.5",
+    "vite-plugin-vuetify": "^2.0.4",
+    "vue-tsc": "^2.1.6"
+  }
+}
