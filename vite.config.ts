@@ -16,7 +16,7 @@ export default defineConfig({
         name: 'Way High Radio — KWHR',
         short_name: 'Way High Radio',
         description:
-          'KWHR 90.5 FM Ward & 102.9 FM Nederland — volunteer-powered, commercial-free community radio.',
+          'KWHR 90.5 FM, Ward, Colorado — volunteer-powered, commercial-free community radio.',
         theme_color: '#0f5b41',
         background_color: '#0f172a',
         display: 'standalone',

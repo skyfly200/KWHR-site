@@ -2,7 +2,7 @@
   "name": "kwhr-site",
   "private": true,
   "version": "1.0.0",
-  "description": "Way High Radio (KWHR 90.5 FM Ward / 102.9 FM Nederland) — modern Vue + Vuetify single-page app",
+  "description": "Way High Radio (KWHR 90.5 FM, Ward, Colorado) — modern Vue + Vuetify single-page app",
   "type": "module",
   "scripts": {
     "dev": "vite",

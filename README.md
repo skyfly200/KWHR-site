@@ -1,8 +1,7 @@
 # Way High Radio — KWHR
 
 A modern single-page web app for **Way High Radio (KWHR)**, the volunteer-powered,
-commercial-free community station broadcasting on **90.5 FM (Ward, CO)** and
-**102.9 FM (Nederland, CO)**.
+commercial-free community station broadcasting on **90.5 FM (Ward, CO)**.
 
 Built with **Vue 3**, **Vuetify 3**, **Vite**, **TypeScript**, **Pinia**, and
 **Vue Router**, with a PWA service worker for installability and offline shell.
