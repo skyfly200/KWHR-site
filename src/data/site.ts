@@ -161,10 +161,27 @@ export const guidelines: Guideline[] = [
 // Absolute URLs to the live site's images (they load fine in the browser).
 const IMG = 'https://www.wayhighradio.com/uploads/1/9/7/4/1974686'
 export const media = {
+  // Mountain scenery header photos from the original site.
+  heroWide: `${IMG}/header_images/1445999652.jpg`,
+  heroAlt: `${IMG}/header_images/1411256791.jpg`,
+  // Logos.
   ccrnLogo: `${IMG}/ccrn-logo-02-border_1.jpg`,
   nedernetLogo: `${IMG}/published/nedernet-logo-new-big-words.jpg`,
+  // Event flyer + community photos.
+  fdgdFlyer: `${IMG}/fdgd-add-102-9.jpg`,
+  gallery: [
+    `${IMG}/7874589.jpg`,
+    `${IMG}/5430562_orig.jpg`,
+    `${IMG}/1838144_orig.jpg`,
+    `${IMG}/14724130-10210749010939636-155157895-o.jpg`,
+  ],
   featureYoutubeId: 'gYpYreUpXYk',
 }
+
+export const partners = [
+  { name: 'Colorado Community Radio Network', logo: media.ccrnLogo, url: station.network.url },
+  { name: 'Nedernet', logo: media.nedernetLogo, url: 'http://nedernet.net/' },
+]
 
 export const listenHelp = [
   {

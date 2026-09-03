@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { djs } from '../data/site'
+import { avatarColor, initials } from '../utils/avatar'
 
 const route = useRoute()
 const dj = computed(() => djs.find((d) => d.slug === route.params.slug))
@@ -13,8 +14,8 @@ const dj = computed(() => djs.find((d) => d.slug === route.params.slug))
 
     <template v-if="dj">
       <div class="d-flex align-center ga-4 mb-6">
-        <v-avatar color="secondary" size="88">
-          <span class="text-h4 font-weight-bold">{{ dj.name.charAt(0) }}</span>
+        <v-avatar :color="avatarColor(dj.name)" size="88">
+          <span class="text-h4 font-weight-bold" style="color: #fff">{{ initials(dj.name) }}</span>
         </v-avatar>
         <div>
           <h1 class="text-h4 font-weight-bold">{{ dj.name }}</h1>

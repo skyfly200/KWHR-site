@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { station, aboutHistory } from '../data/site'
+import { station, aboutHistory, media } from '../data/site'
 import PageHeader from '../components/PageHeader.vue'
 
 const stats = [
@@ -13,6 +13,7 @@ const stats = [
   <PageHeader
     title="About Way High Radio"
     icon="mdi-information-outline"
+    :image="media.heroWide"
     :subtitle="station.subtagline + ' ' + station.tagline"
   />
 
