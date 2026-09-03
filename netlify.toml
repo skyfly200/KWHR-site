@@ -1,0 +1,12 @@
+# Netlify build + SPA routing configuration.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Single-page-app fallback: serve index.html for any path that isn't a real
+# file, so client-side routes (/links, /djs, /schedule, …) resolve to the app
+# instead of Netlify's default 404 page.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
