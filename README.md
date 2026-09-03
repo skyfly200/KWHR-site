@@ -43,22 +43,13 @@ pages and is wired in. A few things are still worth confirming — search for
 - The **Schedule** page embeds the station's live Google Calendar, so it stays
   current automatically.
 
-## ⚠️ Stream over HTTPS (important)
+## Stream over HTTPS
 
-The live stream is `http://74.208.198.179:8000/stream` — **plain HTTP on port 8000**.
-When the site is served over **HTTPS** (which any modern host does), browsers block
-this stream as *mixed content* and playback silently fails. Fixes, easiest first:
-
-1. **Front the stream with HTTPS.** If the Icecast/Shoutcast server has a domain +
-   TLS cert, use `https://stream.wayhighradio.com/stream`. Many hosts (or a
-   Cloudflare/Caddy/nginx reverse proxy) can add TLS in front of the `:8000` server.
-2. **Reverse-proxy through your own site's domain**, e.g. serve
-   `https://wayhighradio.com/stream` that proxies to `http://74.208.198.179:8000/stream`.
-   Then set `station.streamUrl` to the HTTPS path.
-
-Update `station.streamUrl` in `src/data/site.ts` once an HTTPS endpoint exists.
-(If the whole site is served over plain HTTP, the current URL works as-is — but
-HTTPS is strongly recommended.)
+The live stream is served over HTTPS at **`https://stream.wayhighradio.com/stream`**
+— a Caddy reverse proxy (with an automatic Let's Encrypt certificate) sits in front
+of the Icecast server at `74.208.198.179:8000`. This avoids the mixed-content block
+browsers apply to a plain-HTTP stream on an HTTPS page. The URL lives in
+`station.streamUrl` (`src/data/site.ts`).
 
 ## Pages
 

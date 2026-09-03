@@ -25,8 +25,9 @@ export const station = {
     blurb:
       'A network of grassroots "Pirate" community radio stations serving Colorado mountain towns through shared content and a focus on local interests.',
   },
-  // Live Icecast/Shoutcast stream (plain HTTP, port 8000 — see README re: HTTPS).
-  streamUrl: 'http://74.208.198.179:8000/stream',
+  // Live Icecast stream, served over HTTPS via a Caddy reverse proxy in front
+  // of the Icecast server (74.208.198.179:8000). No mixed-content issues.
+  streamUrl: 'https://stream.wayhighradio.com/stream',
   // Broadcast schedule Google Calendar (embedded on the Schedule page).
   scheduleCalendarSrc:
     'https://calendar.google.com/calendar/embed?title=Broadcast%20Schedule&mode=WEEK&height=600&wkst=1&bgcolor=%23FFFFFF&src=wayhighradio%40gmail.com&color=%2329527A&src=n133ik8fl3v58qp8amibid1mrs%40group.calendar.google.com&color=%23BE6D00&ctz=America%2FDenver',
