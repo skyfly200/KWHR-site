@@ -17,8 +17,11 @@ export const station = {
   ],
   about:
     'Way High Radio is a volunteer-powered, commercial-free, listener-supported community radio station broadcasting from the mountains of Colorado. We give local voices, musicians, and neighbors a place on the dial — free-form programming you will not hear anywhere else.',
-  // PLACEHOLDER — replace with the station's real live stream URL.
-  streamUrl: 'https://example-stream.wayhighradio.com/live',
+  // Live Icecast/Shoutcast stream.
+  // NOTE: this is served over plain HTTP on port 8000. If the site itself is
+  // hosted over HTTPS, browsers will block this as mixed content — see the
+  // README "Stream over HTTPS" note for the fix (put an HTTPS proxy in front).
+  streamUrl: 'http://74.208.198.179:8000/stream',
   email: 'info@wayhighradio.com', // PLACEHOLDER — confirm real address
   mailingAddress: 'PO Box —, Ward, CO 80481', // PLACEHOLDER
   donateUrl: '#donate', // PLACEHOLDER — link to real donation page

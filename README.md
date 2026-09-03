@@ -36,7 +36,7 @@ The live site at `wayhighradio.com` could **not** be scraped from the build
 environment (blocked by network egress policy), so some values are placeholders.
 Search the repo for `PLACEHOLDER` and replace:
 
-- **`station.streamUrl`** — the real live audio stream URL (required for playback).
+- **`station.streamUrl`** — now set to the live stream; see the HTTPS note above.
 - **`station.email`, `mailingAddress`, `donateUrl`, `social.instagram`** — real contact/support links.
 - **`djs`** — bios and show names for each DJ (names were confirmed publicly; bios are placeholders).
 - **`schedule`** — the real weekly show lineup and times.
@@ -44,6 +44,23 @@ Search the repo for `PLACEHOLDER` and replace:
 - **`links`** — the real community links.
 - **Guidelines** page — the station's official guidelines (`src/pages/GuidelinesView.vue`).
 - **`public/icon-192.png` / `icon-512.png`** — solid-color placeholders; swap for the real logo.
+
+## ⚠️ Stream over HTTPS (important)
+
+The live stream is `http://74.208.198.179:8000/stream` — **plain HTTP on port 8000**.
+When the site is served over **HTTPS** (which any modern host does), browsers block
+this stream as *mixed content* and playback silently fails. Fixes, easiest first:
+
+1. **Front the stream with HTTPS.** If the Icecast/Shoutcast server has a domain +
+   TLS cert, use `https://stream.wayhighradio.com/stream`. Many hosts (or a
+   Cloudflare/Caddy/nginx reverse proxy) can add TLS in front of the `:8000` server.
+2. **Reverse-proxy through your own site's domain**, e.g. serve
+   `https://wayhighradio.com/stream` that proxies to `http://74.208.198.179:8000/stream`.
+   Then set `station.streamUrl` to the HTTPS path.
+
+Update `station.streamUrl` in `src/data/site.ts` once an HTTPS endpoint exists.
+(If the whole site is served over plain HTTP, the current URL works as-is — but
+HTTPS is strongly recommended.)
 
 ## Pages
 
