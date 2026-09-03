@@ -100,25 +100,6 @@ h3,
   opacity: 0.22;
 }
 
-/* Scrolling "ON AIR" marquee ticker. */
-.ticker {
-  overflow: hidden;
-  white-space: nowrap;
-}
-.ticker__track {
-  display: inline-block;
-  padding-left: 100%;
-  animation: ticker-scroll 22s linear infinite;
-}
-.ticker:hover .ticker__track {
-  animation-play-state: paused;
-}
-@keyframes ticker-scroll {
-  to {
-    transform: translateX(-100%);
-  }
-}
-
 /* Duotone-ish image treatment for gallery/photos. */
 .photo {
   filter: saturate(1.05) contrast(1.03);
@@ -130,9 +111,6 @@ h3,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ticker__track {
-    animation: none;
-  }
   .lift:hover {
     transform: none;
   }

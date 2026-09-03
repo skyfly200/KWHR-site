@@ -38,13 +38,20 @@ defineProps<{ title: string; subtitle?: string; icon?: string; image?: string }>
 .ph {
   position: relative;
   isolation: isolate;
+  background:
+    radial-gradient(800px 300px at 85% -20%, rgba(28, 178, 119, 0.3), transparent 60%),
+    linear-gradient(160deg, #0d2a20 0%, #0a1524 60%, #060c16 100%);
 }
+/* Low-res header photo used only as blurred texture (no pixelation). */
 .ph__bg {
   position: absolute;
   inset: 0;
   z-index: -2;
   background-size: cover;
   background-position: center;
+  filter: blur(14px) saturate(1.1);
+  opacity: 0.3;
+  transform: scale(1.1);
 }
 .ph__scrim {
   position: absolute;
@@ -52,8 +59,8 @@ defineProps<{ title: string; subtitle?: string; icon?: string; image?: string }>
   z-index: -1;
   background: linear-gradient(
     100deg,
-    rgba(6, 12, 22, 0.9),
-    rgba(6, 12, 22, 0.6)
+    rgba(6, 12, 22, 0.8),
+    rgba(6, 12, 22, 0.45)
   );
 }
 .ph__content {

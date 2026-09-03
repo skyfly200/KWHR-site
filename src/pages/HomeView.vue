@@ -14,20 +14,23 @@ const features = [
   { icon: 'mdi-tune-vertical', title: 'Free-form', text: 'Shows you will not hear anywhere else on the dial.', color: 'accent' },
 ]
 
-const tickerWords = [
-  '📻 Pure Community Radio',
-  '⛰️ Broadcasting from Ward, CO since 1997',
-  '🎶 Radio for the people, by the people',
-  '🔥 Longest-running pirate station in the Rockies',
-  '💚 Listener-supported & commercial-free',
-]
 </script>
 
 <template>
-  <!-- Hero with real mountain photo -->
+  <!-- Hero: brand gradient + blurred photo texture + crisp mountain silhouette -->
   <section class="hero">
-    <div class="hero__bg" :style="{ backgroundImage: `url(${media.heroWide})` }" />
+    <div class="hero__texture" :style="{ backgroundImage: `url(${media.heroWide})` }" />
     <div class="hero__scrim" />
+    <svg class="hero__mountains" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true">
+      <path
+        d="M0 200 L0 120 L180 40 L320 110 L470 30 L640 120 L780 60 L960 140 L1120 70 L1280 130 L1440 80 L1440 200 Z"
+        fill="rgba(6,12,22,0.55)"
+      />
+      <path
+        d="M0 200 L0 160 L220 90 L400 150 L560 80 L760 160 L940 100 L1140 165 L1320 110 L1440 150 L1440 200 Z"
+        fill="rgba(6,12,22,0.85)"
+      />
+    </svg>
     <v-container style="max-width: 1200px" class="hero__content py-16">
       <v-chip color="error" variant="flat" size="small" class="mb-4 font-weight-bold px-3">
         <NowPlayingBars :active="true" />
@@ -70,15 +73,6 @@ const tickerWords = [
       </div>
     </v-container>
   </section>
-
-  <!-- ON AIR ticker -->
-  <div class="ticker py-2 text-body-2 font-weight-bold" style="background: rgb(var(--v-theme-secondary)); color: #1a1005">
-    <span class="ticker__track">
-      <span v-for="n in 2" :key="n">
-        <span v-for="w in tickerWords" :key="w" class="mx-6">{{ w }}</span>
-      </span>
-    </span>
-  </div>
 
   <!-- Features -->
   <v-container style="max-width: 1200px" class="py-12">
@@ -191,17 +185,26 @@ const tickerWords = [
 .hero {
   position: relative;
   isolation: isolate;
-  min-height: 78vh;
+  min-height: 82vh;
   display: flex;
   align-items: center;
+  /* Rich brand gradient base — crisp at any size. */
+  background:
+    radial-gradient(1100px 600px at 80% -10%, rgba(28, 178, 119, 0.35), transparent 60%),
+    radial-gradient(900px 500px at 10% 110%, rgba(255, 140, 66, 0.28), transparent 55%),
+    linear-gradient(160deg, #0d2a20 0%, #0a1524 55%, #060c16 100%);
 }
-.hero__bg {
+/* The low-res photo is only used as a heavily blurred texture, so upscaling
+   never looks pixelated — it reads as atmosphere behind the gradient. */
+.hero__texture {
   position: absolute;
   inset: 0;
   z-index: -2;
   background-size: cover;
   background-position: center;
-  transform: scale(1.05);
+  filter: blur(18px) saturate(1.1);
+  opacity: 0.35;
+  transform: scale(1.1);
 }
 .hero__scrim {
   position: absolute;
@@ -209,10 +212,19 @@ const tickerWords = [
   z-index: -1;
   background: linear-gradient(
     100deg,
-    rgba(6, 12, 22, 0.92) 0%,
-    rgba(6, 12, 22, 0.72) 45%,
-    rgba(6, 12, 22, 0.4) 100%
+    rgba(6, 12, 22, 0.85) 0%,
+    rgba(6, 12, 22, 0.55) 45%,
+    rgba(6, 12, 22, 0.25) 100%
   );
+}
+.hero__mountains {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 160px;
+  z-index: -1;
 }
 .hero__content {
   width: 100%;

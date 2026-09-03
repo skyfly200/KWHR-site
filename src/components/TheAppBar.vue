@@ -30,7 +30,7 @@ function toggleTheme() {
             {{ station.name }}
           </div>
           <div class="text-caption text-medium-emphasis">
-            {{ station.callsign }} · 90.5 &amp; 102.9 FM
+            {{ station.callsign }} · {{ station.frequencies[0].freq }} · Ward, CO
           </div>
         </div>
       </router-link>
