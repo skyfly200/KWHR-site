@@ -18,7 +18,8 @@ const dj = computed(() => djs.find((d) => d.slug === route.params.slug))
         </v-avatar>
         <div>
           <h1 class="text-h4 font-weight-bold">{{ dj.name }}</h1>
-          <div class="d-flex flex-wrap ga-1 mt-2">
+          <v-chip v-if="dj.alumni" size="x-small" color="secondary" variant="flat" class="mt-1">Alumni</v-chip>
+          <div v-if="dj.shows.length" class="d-flex flex-wrap ga-1 mt-2">
             <v-chip v-for="show in dj.shows" :key="show" size="small" variant="tonal" color="primary">
               {{ show }}
             </v-chip>
@@ -26,7 +27,7 @@ const dj = computed(() => djs.find((d) => d.slug === route.params.slug))
         </div>
       </div>
       <v-card class="pa-6" rounded="xl">
-        <p class="text-body-1">{{ dj.bio }}</p>
+        <p class="text-body-1 mb-0">{{ dj.bio || 'A Way High Radio DJ.' }}</p>
       </v-card>
     </template>
 

@@ -16,10 +16,7 @@ const post = computed(() => posts.find((p) => p.slug === route.params.slug))
         {{ new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) }}
       </div>
       <h1 class="text-h4 font-weight-bold mb-4">{{ post.title }}</h1>
-      <p class="text-body-1 mb-4">{{ post.excerpt }}</p>
-      <v-alert type="info" variant="tonal" density="comfortable">
-        PLACEHOLDER — add the full post body here (from the station's Forward blog).
-      </v-alert>
+      <p v-for="(para, i) in post.body" :key="i" class="text-body-1 mb-4">{{ para }}</p>
     </template>
 
     <v-empty-state

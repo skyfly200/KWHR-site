@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePlayerStore } from '../stores/player'
-import { station } from '../data/site'
+import { station, listenHelp } from '../data/site'
 import PageHeader from '../components/PageHeader.vue'
 import NowPlayingBars from '../components/NowPlayingBars.vue'
 
@@ -9,7 +9,7 @@ const player = usePlayerStore()
 
 <template>
   <PageHeader
-    title="Listen Live"
+    title="Tune In"
     icon="mdi-headphones"
     subtitle="Stream Way High Radio anywhere. Press play and keep exploring — the audio stays with you as you browse the whole site."
   />
@@ -21,7 +21,7 @@ const player = usePlayerStore()
           <NowPlayingBars :active="player.isPlaying" />
           <div class="text-h5 font-weight-bold mt-4">{{ station.name }}</div>
           <div class="text-body-2 text-medium-emphasis mb-6">
-            {{ player.isPlaying ? 'On air — live now' : player.isLoading ? 'Connecting…' : 'Ready when you are' }}
+            {{ player.isPlaying ? 'On air — live now' : player.isLoading ? 'Connecting…' : 'Click below to listen' }}
           </div>
           <v-btn
             :icon="player.isPlaying || player.isLoading ? 'mdi-pause' : 'mdi-play'"
@@ -42,6 +42,15 @@ const player = usePlayerStore()
             {{ player.error }}
           </v-alert>
         </v-card>
+
+        <!-- Stream troubleshooting (from the original site) -->
+        <v-card class="pa-6 mt-4" rounded="xl">
+          <div class="text-overline text-medium-emphasis mb-2">Stream troubleshooting</div>
+          <div v-for="tip in listenHelp" :key="tip.title" class="mb-3">
+            <div class="text-body-1 font-weight-bold">{{ tip.title }}</div>
+            <div class="text-body-2 text-medium-emphasis">{{ tip.body }}</div>
+          </div>
+        </v-card>
       </v-col>
 
       <v-col cols="12" md="5">
@@ -61,12 +70,11 @@ const player = usePlayerStore()
               subtitle="Stream right here, on every page of the site."
             />
             <v-list-item
-              prepend-icon="mdi-cellphone"
-              title="On mobile"
-              subtitle="Add this site to your home screen for a one-tap app."
+              prepend-icon="mdi-radio"
+              title="Across the CCRN"
+              subtitle="Simulcast on partner stations in the Boulder Valley."
             />
           </v-list>
-          <!-- PLACEHOLDER: embed real player/app links (TuneIn, Radio Garden, etc.). -->
         </v-card>
       </v-col>
     </v-row>

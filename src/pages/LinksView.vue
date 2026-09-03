@@ -11,9 +11,6 @@ import PageHeader from '../components/PageHeader.vue'
   />
 
   <v-container style="max-width: 900px" class="pb-12">
-    <v-alert type="info" variant="tonal" density="comfortable" class="mb-6">
-      PLACEHOLDER links — replace with the real community links.
-    </v-alert>
     <v-row>
       <v-col v-for="link in links" :key="link.label" cols="12" sm="6">
         <v-card

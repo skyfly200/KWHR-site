@@ -44,8 +44,9 @@ function submit() {
         <v-card class="pa-6 h-100" color="surface-bright" rounded="xl">
           <div class="text-overline text-medium-emphasis mb-2">Reach the station</div>
           <v-list class="bg-transparent">
+            <v-list-item :href="`tel:${station.phone}`" prepend-icon="mdi-phone" :title="station.phone" subtitle="Give us a call" />
             <v-list-item :href="station.social.email" prepend-icon="mdi-email" :title="station.email" subtitle="Email" />
-            <v-list-item prepend-icon="mdi-map-marker" :title="station.mailingAddress" subtitle="Mail" />
+            <v-list-item prepend-icon="mdi-map-marker" :title="station.location" subtitle="Studio" />
             <v-list-item
               v-if="station.social.facebook"
               :href="station.social.facebook"
@@ -56,6 +57,22 @@ function submit() {
               subtitle="Facebook"
             />
           </v-list>
+
+          <v-divider class="my-4" />
+          <div class="text-overline text-medium-emphasis mb-2">Submit content</div>
+          <p class="text-body-2 text-medium-emphasis mb-3">
+            You can now upload content directly to the Colorado Community Radio Network.
+          </p>
+          <v-btn
+            :href="station.network.url"
+            target="_blank"
+            rel="noopener"
+            variant="tonal"
+            color="primary"
+            append-icon="mdi-open-in-new"
+          >
+            Submit content
+          </v-btn>
         </v-card>
       </v-col>
     </v-row>

@@ -100,7 +100,7 @@ const features = [
           </v-avatar>
           <div class="text-h6 font-weight-bold">{{ dj.name }}</div>
           <div class="text-body-2 text-medium-emphasis mt-1">
-            {{ dj.shows.join(' · ') }}
+            {{ dj.shows.length ? dj.shows.join(' · ') : dj.bio }}
           </div>
         </v-card>
       </v-col>

@@ -30,20 +30,18 @@ npm run preview  # preview the production build
 All copy, DJs, schedule, blog posts, links, and station details are centralized in
 **`src/data/site.ts`** so non-developers can update the site by editing one file.
 
-### ⚠️ Placeholders to replace
+Content (station history, DJs, guidelines, links, the Forward post, contact
+details, and the live stream URL) was sourced from the current wayhighradio.com
+pages and is wired in. A few things are still worth confirming — search for
+`CONFIRM`:
 
-The live site at `wayhighradio.com` could **not** be scraped from the build
-environment (blocked by network egress policy), so some values are placeholders.
-Search the repo for `PLACEHOLDER` and replace:
-
-- **`station.streamUrl`** — now set to the live stream; see the HTTPS note above.
-- **`station.email`, `mailingAddress`, `donateUrl`, `social.instagram`** — real contact/support links.
-- **`djs`** — bios and show names for each DJ (names were confirmed publicly; bios are placeholders).
-- **`schedule`** — the real weekly show lineup and times.
-- **`posts`** — the real "Forward" blog entries and bodies.
-- **`links`** — the real community links.
-- **Guidelines** page — the station's official guidelines (`src/pages/GuidelinesView.vue`).
+- **`station.frequencies`** — the source site was ambiguous about the current
+  FM dial (it mentions moving to 90.5 FM with a 75-watt transmitter). Set the
+  real over-the-air frequency/frequencies.
+- **`station.donateUrl`** — point to the real donation / annual benefit page.
 - **`public/icon-192.png` / `icon-512.png`** — solid-color placeholders; swap for the real logo.
+- The **Schedule** page embeds the station's live Google Calendar, so it stays
+  current automatically.
 
 ## ⚠️ Stream over HTTPS (important)
 
