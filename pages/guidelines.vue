@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { guidelines } from '../data/site'
-import PageHeader from '../components/PageHeader.vue'
+useHead({ title: 'Guidelines — Way High Radio' })
+import { guidelines } from '~/data/site'
+import PageHeader from '~/components/PageHeader.vue'
 </script>
 
 <template>
@@ -23,7 +24,7 @@ import PageHeader from '../components/PageHeader.vue'
     <v-alert type="info" variant="tonal" class="mt-6" density="comfortable">
       Interested in becoming a DJ? New members receive the full guidelines and an
       orientation on the equipment. Reach out from the
-      <router-link to="/contact" class="text-primary">Contact</router-link> page.
+      <NuxtLink to="/contact" class="text-primary">Contact</NuxtLink> page.
     </v-alert>
   </v-container>
 </template>

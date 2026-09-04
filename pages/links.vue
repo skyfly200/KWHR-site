@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { links } from '../data/site'
-import PageHeader from '../components/PageHeader.vue'
+useHead({ title: 'Links — Way High Radio' })
+import { links } from '~/data/site'
+import PageHeader from '~/components/PageHeader.vue'
 </script>
 
 <template>

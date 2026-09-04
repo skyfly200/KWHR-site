@@ -1,61 +1,74 @@
 # Way High Radio — KWHR
 
-A modern single-page web app for **Way High Radio (KWHR)**, the volunteer-powered,
-commercial-free community station broadcasting on **90.5 FM (Ward, CO)**.
+A modern, statically-generated site for **Way High Radio (KWHR)**, the
+volunteer-powered, commercial-free community station broadcasting on
+**90.5 FM (Ward, CO)** and streaming online.
 
-Built with **Vue 3**, **Vuetify 3**, **Vite**, **TypeScript**, **Pinia**, and
-**Vue Router**, with a PWA service worker for installability and offline shell.
+Built with **Nuxt 3**, **Vuetify 3** (via `vuetify-nuxt-module`),
+**@nuxt/content** (markdown blog), and **Pinia**. `nuxt generate` prerenders
+every page to static HTML for fast loads and good SEO.
 
 ## The persistent player
 
 The whole point of the rebuild: a **site-wide stream player** that keeps playing
-while you browse. The `<audio>` element lives in the Pinia store
-(`src/stores/player.ts`) and the player bar (`src/components/ThePlayerBar.vue`) is
-mounted once in `src/App.vue` **outside** `<router-view>`. Because it never
-unmounts on navigation, the stream continues across every page — no second tab,
-no interruption.
+while you browse. The `<audio>` element lives in a Pinia store
+(`stores/player.ts`) and the player bar (`components/ThePlayerBar.vue`) is
+mounted once in the layout (`layouts/default.vue`), **outside** `<NuxtPage>`.
+Because it never unmounts on navigation, the stream continues across every page.
+
+The stream is served over HTTPS at `https://stream.wayhighradio.com/stream`
+(a Caddy reverse proxy + Let's Encrypt in front of the Icecast server).
 
 ## Develop
 
 ```bash
-npm install
-npm run dev      # start the dev server
-npm run build    # type-check + production build to dist/
-npm run preview  # preview the production build
+npm install       # uses legacy-peer-deps (see .npmrc)
+npm run dev       # dev server at http://localhost:3000
+npm run generate  # static build -> .output/public (symlinked as dist/)
+npm run preview   # preview the generated build
 ```
 
-## Where the content lives
+## Writing blog posts (the "Forward" blog)
 
-All copy, DJs, schedule, blog posts, links, and station details are centralized in
-**`src/data/site.ts`** so non-developers can update the site by editing one file.
+Posts are **markdown files** in `content/forward/`. Add a file like
+`content/forward/my-post.md`:
 
-Content (station history, DJs, guidelines, links, the Forward post, contact
-details, and the live stream URL) was sourced from the current wayhighradio.com
-pages and is wired in. A few things are still worth confirming — search for
-`CONFIRM`:
+```md
+---
+title: My Post Title
+date: 2026-09-04
+author: Way High Radio
+excerpt: A one-line summary shown on the blog list and home page.
+---
 
-- **`station.frequencies`** — the source site was ambiguous about the current
-  FM dial (it mentions moving to 90.5 FM with a 75-watt transmitter). Set the
-  real over-the-air frequency/frequencies.
-- **`station.donateUrl`** — point to the real donation / annual benefit page.
-- **`public/icon-192.png` / `icon-512.png`** — solid-color placeholders; swap for the real logo.
-- The **Schedule** page embeds the station's live Google Calendar, so it stays
-  current automatically.
+Your post body in **markdown**. Headings, lists, links, images — all supported.
+```
 
-## Stream over HTTPS
+It automatically appears (newest first) on `/forward`, on the home page's
+"From the blog" section, and at `/forward/my-post`. No code changes needed.
 
-The live stream is served over HTTPS at **`https://stream.wayhighradio.com/stream`**
-— a Caddy reverse proxy (with an automatic Let's Encrypt certificate) sits in front
-of the Icecast server at `74.208.198.179:8000`. This avoids the mixed-content block
-browsers apply to a plain-HTTP stream on an HTTPS page. The URL lives in
-`station.streamUrl` (`src/data/site.ts`).
+## Where the rest of the content lives
+
+Station details, DJs, schedule calendar, links, guidelines, and image URLs are
+in **`data/site.ts`**. The schedule page embeds the station's live Google
+Calendar, so it stays current automatically.
+
+### Still to confirm (search for `CONFIRM`)
+
+- **`station.frequencies`** — set the real over-the-air FM dial if it differs.
+- **`station.donateUrl`** — point to the real donation / benefit page.
+- **Logo / icons** — the header logo currently uses the sticker JPEG
+  (`media.sticker`). Swap in a transparent tower-only logo when available, and
+  replace `public/icon-192.png` / `icon-512.png` for the PWA.
 
 ## Pages
 
-Home · Listen · Schedule · DJs (+ detail) · Forward blog (+ post) · Guidelines ·
-Links · Contact — mirroring the structure of the original site.
+Home · Listen · Schedule · About · DJs (+ detail) · Forward blog (+ posts) ·
+Guidelines · Links · Contact.
 
-## Deploy
+## Deploy (Netlify)
 
-Static output in `dist/`. The included `public/_redirects` handles SPA fallback on
-Netlify; for other hosts, route all paths to `index.html`.
+`netlify.toml` sets the build command (`npm run generate`), publish dir
+(`dist`, a symlink to `.output/public`), and a `/* -> /200.html` SPA fallback.
+`.npmrc` pins `legacy-peer-deps=true` so Netlify's `npm install` resolves the
+dependency tree the same way local does.

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { station } from '../data/site'
-import PageHeader from '../components/PageHeader.vue'
+useHead({ title: 'Schedule — Way High Radio' })
+import { station } from '~/data/site'
+import PageHeader from '~/components/PageHeader.vue'
 </script>
 
 <template>

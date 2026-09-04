@@ -1,8 +1,9 @@
 <script setup lang="ts">
+useHead({ title: 'DJs — Way High Radio' })
 import { computed } from 'vue'
-import { djs, media } from '../data/site'
-import { avatarColor, initials } from '../utils/avatar'
-import PageHeader from '../components/PageHeader.vue'
+import { djs, media } from '~/data/site'
+import { avatarColor, initials } from '~/utils/avatar'
+import PageHeader from '~/components/PageHeader.vue'
 
 const active = computed(() => djs.filter((d) => !d.alumni))
 const alumni = computed(() => djs.filter((d) => d.alumni))

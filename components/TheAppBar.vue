@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useTheme } from 'vuetify'
-import { navItems, station, media } from '../data/site'
+import { navItems, station, media } from '~/data/site'
 
 const theme = useTheme()
 const drawer = ref(false)
@@ -21,7 +21,7 @@ function toggleTheme() {
   <v-app-bar flat height="72" class="border-b" color="surface">
     <v-container class="d-flex align-center py-0" style="max-width: 1200px">
       <!-- Brand -->
-      <router-link to="/" class="d-flex align-center text-decoration-none">
+      <NuxtLink to="/" class="d-flex align-center text-decoration-none">
         <img :src="media.sticker" alt="Way High Radio" class="brand-logo mr-3" />
         <div class="d-none d-sm-block">
           <div class="text-body-1 font-weight-bold" style="line-height: 1.1">
@@ -31,7 +31,7 @@ function toggleTheme() {
             {{ station.callsign }} · {{ station.frequencies[0].freq }} · Ward, CO
           </div>
         </div>
-      </router-link>
+      </NuxtLink>
 
       <v-spacer />
 

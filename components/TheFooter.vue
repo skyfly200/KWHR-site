@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { navItems, station } from '../data/site'
+import { navItems, station } from '~/data/site'
 const year = new Date().getFullYear()
 </script>
 
@@ -40,14 +40,14 @@ const year = new Date().getFullYear()
         <v-col cols="6" md="3">
           <div class="text-overline text-medium-emphasis mb-2">Explore</div>
           <div class="d-flex flex-column ga-1">
-            <router-link
+            <NuxtLink
               v-for="item in navItems"
               :key="item.to"
               :to="item.to"
               class="text-body-2 text-decoration-none footer-link"
             >
               {{ item.label }}
-            </router-link>
+            </NuxtLink>
           </div>
         </v-col>
 

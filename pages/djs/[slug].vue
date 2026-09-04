@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { djs } from '../data/site'
-import { avatarColor, initials } from '../utils/avatar'
+import { djs } from '~/data/site'
+import { avatarColor, initials } from '~/utils/avatar'
 
 const route = useRoute()
 const dj = computed(() => djs.find((d) => d.slug === route.params.slug))
+
+useHead(() => ({ title: `${dj.value?.name ?? 'DJ'} — Way High Radio` }))
 </script>
 
 <template>

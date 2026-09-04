@@ -1,12 +1,15 @@
-# Netlify build + SPA routing configuration.
+# Netlify build config for the Nuxt static site.
 [build]
-  command = "npm run build"
+  command = "npm run generate"
   publish = "dist"
 
-# Single-page-app fallback: serve index.html for any path that isn't a real
-# file, so client-side routes (/links, /djs, /schedule, …) resolve to the app
-# instead of Netlify's default 404 page.
+[build.environment]
+  NODE_VERSION = "20"
+
+# `nuxt generate` prerenders every crawlable route to static HTML in
+# .output/public, which Nuxt also copies to dist/. A 200.html SPA fallback is
+# emitted for any client-only route.
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/200.html"
   status = 200

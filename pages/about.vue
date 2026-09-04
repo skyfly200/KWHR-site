@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { station, aboutHistory, media } from '../data/site'
-import PageHeader from '../components/PageHeader.vue'
+useHead({ title: 'About — Way High Radio' })
+import { station, aboutHistory, media } from '~/data/site'
+import PageHeader from '~/components/PageHeader.vue'
 
 const stats = [
   { value: `Since ${station.founded}`, label: 'On the air' },

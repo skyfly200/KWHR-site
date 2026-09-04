@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { usePlayerStore } from '../stores/player'
-import { station, listenHelp } from '../data/site'
-import PageHeader from '../components/PageHeader.vue'
-import NowPlayingBars from '../components/NowPlayingBars.vue'
+useHead({ title: 'Listen Live — Way High Radio' })
+import { usePlayerStore } from '~/stores/player'
+import { station, listenHelp } from '~/data/site'
+import PageHeader from '~/components/PageHeader.vue'
+import NowPlayingBars from '~/components/NowPlayingBars.vue'
 
 const player = usePlayerStore()
 </script>

@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import { usePlayerStore } from '../stores/player'
-import { station, djs, posts, media, partners } from '../data/site'
-import { avatarColor, initials } from '../utils/avatar'
-import NowPlayingBars from '../components/NowPlayingBars.vue'
+import { usePlayerStore } from '~/stores/player'
+import { station, djs, media, partners } from '~/data/site'
+import { avatarColor, initials } from '~/utils/avatar'
+import NowPlayingBars from '~/components/NowPlayingBars.vue'
+
+useHead({ title: 'Way High Radio — KWHR 90.5 FM' })
+
+// Latest blog posts from markdown content.
+const { data: latest } = await useAsyncData('home-latest-posts', () =>
+  queryContent('/forward').sort({ date: -1 }).limit(2).find(),
+)
 
 const player = usePlayerStore()
 const featuredDjs = djs.filter((d) => !d.alumni).slice(0, 6)
-const latest = posts.slice(0, 2)
 
 const features = [
   { icon: 'mdi-account-group', title: 'Volunteer-powered', text: 'Programmed and run by neighbors, not algorithms.', color: 'primary' },
@@ -155,8 +161,8 @@ const features = [
         </div>
         <v-card
           v-for="post in latest"
-          :key="post.slug"
-          :to="`/forward/${post.slug}`"
+          :key="post._path"
+          :to="post._path"
           class="pa-6 mb-4 lift"
           rounded="xl"
         >

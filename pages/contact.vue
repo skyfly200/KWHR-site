@@ -1,7 +1,8 @@
 <script setup lang="ts">
+useHead({ title: 'Contact — Way High Radio' })
 import { ref } from 'vue'
-import { station } from '../data/site'
-import PageHeader from '../components/PageHeader.vue'
+import { station } from '~/data/site'
+import PageHeader from '~/components/PageHeader.vue'
 
 const name = ref('')
 const email = ref('')

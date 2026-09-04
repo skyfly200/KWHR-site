@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { usePlayerStore } from '../stores/player'
-import { station } from '../data/site'
+import { usePlayerStore } from '~/stores/player'
+import { station } from '~/data/site'
 import NowPlayingBars from './NowPlayingBars.vue'
 
 const player = usePlayerStore()
