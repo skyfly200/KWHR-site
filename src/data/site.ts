@@ -8,6 +8,7 @@
 export const station = {
   name: 'Way High Radio',
   callsign: 'KWHR',
+  slogan: 'We’re taking radio higher.',
   tagline: 'Radio for the people, by the people.',
   subtagline: 'Pure Community Radio.',
   // The site notes a move to 90.5 FM with a 75-watt transmitter; the station

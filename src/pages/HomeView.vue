@@ -17,30 +17,41 @@ const features = [
 </script>
 
 <template>
-  <!-- Hero: brand gradient + blurred photo texture + crisp mountain silhouette -->
+  <!-- Hero: fully vector mountain scene — crisp at any size, no photo -->
   <section class="hero">
-    <div class="hero__texture" :style="{ backgroundImage: `url(${media.heroWide})` }" />
-    <div class="hero__scrim" />
-    <svg class="hero__mountains" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true">
-      <path
-        d="M0 200 L0 120 L180 40 L320 110 L470 30 L640 120 L780 60 L960 140 L1120 70 L1280 130 L1440 80 L1440 200 Z"
-        fill="rgba(6,12,22,0.55)"
-      />
-      <path
-        d="M0 200 L0 160 L220 90 L400 150 L560 80 L760 160 L940 100 L1140 165 L1320 110 L1440 150 L1440 200 Z"
-        fill="rgba(6,12,22,0.85)"
-      />
+    <div class="hero__sun" />
+    <!-- Layered mountain ranges for depth -->
+    <svg class="hero__scene" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <!-- far range -->
+      <path d="M0 420 L0 250 L240 150 L470 250 L680 120 L920 260 L1140 160 L1440 240 L1440 420 Z" fill="#123a2c" opacity="0.7" />
+      <!-- mid range -->
+      <path d="M0 420 L0 300 L200 210 L430 320 L640 200 L900 330 L1160 230 L1440 310 L1440 420 Z" fill="#0d2a20" />
+      <!-- near range -->
+      <path d="M0 420 L0 350 L260 280 L520 370 L760 270 L1020 380 L1280 300 L1440 360 L1440 420 Z" fill="#08160f" />
+      <!-- broadcast tower -->
+      <g stroke="#41cd91" stroke-width="3" fill="none" opacity="0.9">
+        <path d="M760 270 L748 360 M760 270 L772 360 M752 320 L768 320 M750 340 L770 340" />
+      </g>
+      <circle cx="760" cy="262" r="5" fill="#ff8c42" />
+      <!-- radio waves off the tower -->
+      <g stroke="#ff8c42" fill="none" opacity="0.55">
+        <path class="wave wave1" d="M744 262 a24 24 0 0 1 32 0" />
+        <path class="wave wave2" d="M732 262 a40 40 0 0 1 56 0" />
+        <path class="wave wave3" d="M720 262 a56 56 0 0 1 80 0" />
+      </g>
     </svg>
+
     <v-container style="max-width: 1200px" class="hero__content py-16">
       <v-chip color="error" variant="flat" size="small" class="mb-4 font-weight-bold px-3">
         <NowPlayingBars :active="true" />
         <span class="ml-2">ON AIR · {{ station.callsign }}</span>
       </v-chip>
-      <h1 class="hero__title mb-3">
-        <span class="grad-text">Way High</span> Radio
+      <h1 class="hero__title mb-4">
+        We’re taking radio <span class="grad-text">higher</span>.
       </h1>
       <p class="text-h6 font-weight-medium mb-2" style="color: #f1f5f9">
-        {{ station.tagline }} <span class="text-medium-emphasis">{{ station.subtagline }}</span>
+        {{ station.name }} — {{ station.tagline }}
+        <span class="text-medium-emphasis">{{ station.subtagline }}</span>
       </p>
       <p class="text-body-1 mb-6" style="max-width: 52ch; color: #cbd5e1">
         Volunteer-powered, commercial-free community radio from the mountains of
@@ -185,55 +196,73 @@ const features = [
 .hero {
   position: relative;
   isolation: isolate;
-  min-height: 82vh;
+  min-height: 84vh;
   display: flex;
   align-items: center;
-  /* Rich brand gradient base — crisp at any size. */
-  background:
-    radial-gradient(1100px 600px at 80% -10%, rgba(28, 178, 119, 0.35), transparent 60%),
-    radial-gradient(900px 500px at 10% 110%, rgba(255, 140, 66, 0.28), transparent 55%),
-    linear-gradient(160deg, #0d2a20 0%, #0a1524 55%, #060c16 100%);
+  overflow: hidden;
+  /* Deep dawn sky gradient — crisp at any size. */
+  background: linear-gradient(180deg, #06131f 0%, #0a2130 45%, #0f3a2c 100%);
 }
-/* The low-res photo is only used as a heavily blurred texture, so upscaling
-   never looks pixelated — it reads as atmosphere behind the gradient. */
-.hero__texture {
+/* Soft rising sun glow behind the peaks. */
+.hero__sun {
   position: absolute;
-  inset: 0;
   z-index: -2;
-  background-size: cover;
-  background-position: center;
-  filter: blur(18px) saturate(1.1);
-  opacity: 0.35;
-  transform: scale(1.1);
+  left: 50%;
+  bottom: 8%;
+  width: 520px;
+  height: 520px;
+  transform: translateX(-30%);
+  background: radial-gradient(circle, rgba(255, 176, 102, 0.5) 0%, rgba(255, 140, 66, 0.18) 35%, transparent 68%);
+  filter: blur(4px);
 }
-.hero__scrim {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(
-    100deg,
-    rgba(6, 12, 22, 0.85) 0%,
-    rgba(6, 12, 22, 0.55) 45%,
-    rgba(6, 12, 22, 0.25) 100%
-  );
-}
-.hero__mountains {
+.hero__scene {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
-  height: 160px;
+  height: min(52vh, 440px);
   z-index: -1;
 }
 .hero__content {
   width: 100%;
 }
 .hero__title {
-  font-size: clamp(2.75rem, 8vw, 5rem);
+  font-size: clamp(2.75rem, 8vw, 5.25rem);
   font-weight: 800;
-  line-height: 0.95;
+  line-height: 0.98;
   color: #fff;
+}
+/* Radio waves pulsing off the tower. */
+.wave {
+  transform-origin: 760px 262px;
+  animation: wave-pulse 3s ease-out infinite;
+  opacity: 0;
+}
+.wave2 {
+  animation-delay: 1s;
+}
+.wave3 {
+  animation-delay: 2s;
+}
+@keyframes wave-pulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.6);
+  }
+  70% {
+    opacity: 0.15;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wave {
+    animation: none;
+    opacity: 0.4;
+  }
 }
 .partner-logo {
   filter: grayscale(0.2);
