@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useTheme } from 'vuetify'
-import { navItems, station } from '../data/site'
+import { navItems, station, media } from '../data/site'
 
 const theme = useTheme()
 const drawer = ref(false)
@@ -22,9 +22,7 @@ function toggleTheme() {
     <v-container class="d-flex align-center py-0" style="max-width: 1200px">
       <!-- Brand -->
       <router-link to="/" class="d-flex align-center text-decoration-none">
-        <v-avatar color="primary" size="40" class="mr-3">
-          <v-icon icon="mdi-radio-tower" size="24" color="white" />
-        </v-avatar>
+        <img :src="media.sticker" alt="Way High Radio" class="brand-logo mr-3" />
         <div class="d-none d-sm-block">
           <div class="text-body-1 font-weight-bold" style="line-height: 1.1">
             {{ station.name }}
@@ -99,3 +97,14 @@ function toggleTheme() {
     </template>
   </v-navigation-drawer>
 </template>
+
+<style scoped>
+.brand-logo {
+  height: 44px;
+  width: auto;
+  max-width: 120px;
+  border-radius: 8px;
+  object-fit: contain;
+  display: block;
+}
+</style>
