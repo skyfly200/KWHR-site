@@ -165,6 +165,8 @@ export const media = {
   // Mountain scenery header photos from the original site.
   heroWide: `${IMG}/header_images/1445999652.jpg`,
   heroAlt: `${IMG}/header_images/1411256791.jpg`,
+  // Way High Radio sticker / logo.
+  sticker: `${IMG}/1838144_orig.jpg`,
   // Logos.
   ccrnLogo: `${IMG}/ccrn-logo-02-border_1.jpg`,
   nedernetLogo: `${IMG}/published/nedernet-logo-new-big-words.jpg`,
@@ -173,7 +175,6 @@ export const media = {
   gallery: [
     `${IMG}/7874589.jpg`,
     `${IMG}/5430562_orig.jpg`,
-    `${IMG}/1838144_orig.jpg`,
     `${IMG}/14724130-10210749010939636-155157895-o.jpg`,
   ],
   featureYoutubeId: 'gYpYreUpXYk',

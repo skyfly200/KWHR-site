@@ -42,46 +42,55 @@ const features = [
     </svg>
 
     <v-container style="max-width: 1200px" class="hero__content py-16">
-      <v-chip color="error" variant="flat" size="small" class="mb-4 font-weight-bold px-3">
-        <NowPlayingBars :active="true" />
-        <span class="ml-2">ON AIR · {{ station.callsign }}</span>
-      </v-chip>
-      <h1 class="hero__title mb-4">
-        We’re taking radio <span class="grad-text">higher</span>.
-      </h1>
-      <p class="text-h6 font-weight-medium mb-2" style="color: #f1f5f9">
-        {{ station.name }} — {{ station.tagline }}
-        <span class="text-medium-emphasis">{{ station.subtagline }}</span>
-      </p>
-      <p class="text-body-1 mb-6" style="max-width: 52ch; color: #cbd5e1">
-        Volunteer-powered, commercial-free community radio from the mountains of
-        Colorado. Press play and keep browsing — the stream follows you everywhere.
-      </p>
+      <v-row align="center">
+        <v-col cols="12" md="7">
+          <v-chip color="error" variant="flat" size="small" class="mb-4 font-weight-bold px-3">
+            <NowPlayingBars :active="true" />
+            <span class="ml-2">ON AIR · {{ station.callsign }}</span>
+          </v-chip>
+          <h1 class="hero__title mb-4">
+            We’re taking radio <span class="grad-text">higher</span>.
+          </h1>
+          <p class="text-h6 font-weight-medium mb-2" style="color: #f1f5f9">
+            {{ station.name }} — {{ station.tagline }}
+            <span class="text-medium-emphasis">{{ station.subtagline }}</span>
+          </p>
+          <p class="text-body-1 mb-6" style="max-width: 52ch; color: #cbd5e1">
+            Volunteer-powered, commercial-free community radio from the mountains of
+            Colorado. Press play and keep browsing — the stream follows you everywhere.
+          </p>
 
-      <div class="d-flex flex-wrap ga-3">
-        <v-btn
-          size="x-large"
-          color="primary"
-          variant="flat"
-          :prepend-icon="player.isPlaying ? 'mdi-pause' : 'mdi-play'"
-          @click="player.toggle()"
-        >
-          {{ player.isPlaying ? 'Pause stream' : 'Listen live' }}
-        </v-btn>
-        <v-btn size="x-large" variant="outlined" color="white" to="/schedule" prepend-icon="mdi-calendar-clock">
-          Schedule
-        </v-btn>
-      </div>
-
-      <div class="d-flex flex-wrap ga-6 mt-8">
-        <div v-for="f in station.frequencies" :key="f.freq" class="d-flex align-center">
-          <v-icon icon="mdi-antenna" color="accent" class="mr-2" />
-          <div>
-            <div class="text-body-1 font-weight-bold" style="color: #fff">{{ f.freq }}</div>
-            <div class="text-caption" style="color: #cbd5e1">{{ f.city }}</div>
+          <div class="d-flex flex-wrap ga-3">
+            <v-btn
+              size="x-large"
+              color="primary"
+              variant="flat"
+              :prepend-icon="player.isPlaying ? 'mdi-pause' : 'mdi-play'"
+              @click="player.toggle()"
+            >
+              {{ player.isPlaying ? 'Pause stream' : 'Listen live' }}
+            </v-btn>
+            <v-btn size="x-large" variant="outlined" color="white" to="/schedule" prepend-icon="mdi-calendar-clock">
+              Schedule
+            </v-btn>
           </div>
-        </div>
-      </div>
+
+          <div class="d-flex flex-wrap ga-6 mt-8">
+            <div v-for="f in station.frequencies" :key="f.freq" class="d-flex align-center">
+              <v-icon icon="mdi-antenna" color="accent" class="mr-2" />
+              <div>
+                <div class="text-body-1 font-weight-bold" style="color: #fff">{{ f.freq }}</div>
+                <div class="text-caption" style="color: #cbd5e1">{{ f.city }}</div>
+              </div>
+            </div>
+          </div>
+        </v-col>
+
+        <!-- Sticker centerpiece -->
+        <v-col cols="12" md="5" class="text-center">
+          <img :src="media.sticker" alt="Way High Radio sticker" class="hero__sticker" />
+        </v-col>
+      </v-row>
     </v-container>
   </section>
 
@@ -226,6 +235,30 @@ const features = [
 }
 .hero__content {
   width: 100%;
+}
+.hero__sticker {
+  width: min(360px, 78%);
+  height: auto;
+  border-radius: 24px;
+  transform: rotate(-4deg);
+  box-shadow:
+    0 0 0 6px rgba(255, 255, 255, 0.9),
+    0 24px 60px -18px rgba(0, 0, 0, 0.7);
+  animation: sticker-float 6s ease-in-out infinite;
+}
+@keyframes sticker-float {
+  0%,
+  100% {
+    transform: rotate(-4deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-2deg) translateY(-12px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__sticker {
+    animation: none;
+  }
 }
 .hero__title {
   font-size: clamp(2.75rem, 8vw, 5.25rem);
