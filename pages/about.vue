@@ -1,7 +1,8 @@
 <script setup lang="ts">
-useHead({ title: 'About — Way High Radio' })
-import { station, aboutHistory, media } from '~/data/site'
+import { station, aboutHistory, media, callToAction, lookingBack, fccPolicy } from '~/data/site'
 import PageHeader from '~/components/PageHeader.vue'
+
+useHead({ title: 'About — Way High Radio' })
 
 const stats = [
   { value: `Since ${station.founded}`, label: 'On the air' },
@@ -29,12 +30,56 @@ const stats = [
     </v-row>
 
     <v-card class="pa-6 pa-md-8 mt-2" rounded="xl">
-      <h2 class="text-h5 font-weight-bold mb-4">Everything you wanted to know</h2>
+      <h2 class="text-h5 font-weight-bold mb-4 section-title">Everything you wanted to know</h2>
       <p v-for="(para, i) in aboutHistory" :key="i" class="text-body-1 mb-4">
         {{ para }}
       </p>
     </v-card>
 
+    <!-- The Call to Action (2010) -->
+    <v-card class="pa-6 pa-md-8 mt-4" rounded="xl">
+      <h2 class="text-h5 font-weight-bold mb-4 section-title">{{ callToAction.title }}</h2>
+      <p v-for="(para, i) in callToAction.paragraphs" :key="i" class="text-body-1 mb-4">
+        {{ para }}
+      </p>
+    </v-card>
+
+    <!-- Looking Back + Holly's reflection -->
+    <v-card class="pa-6 pa-md-8 mt-4" rounded="xl">
+      <h2 class="text-h5 font-weight-bold mb-4 section-title">{{ lookingBack.title }}</h2>
+      <p v-for="(para, i) in lookingBack.paragraphs" :key="i" class="text-body-1 mb-4">
+        {{ para }}
+      </p>
+      <v-sheet color="surface-bright" rounded="lg" class="pa-5 mt-2 border-s-lg" style="border-inline-start: 4px solid rgb(var(--v-theme-secondary))">
+        <div class="text-overline text-secondary font-weight-bold mb-2">{{ lookingBack.reflection.by }}</div>
+        <p v-for="(para, i) in lookingBack.reflection.paragraphs" :key="i" class="text-body-1 font-italic mb-3">
+          {{ para }}
+        </p>
+      </v-sheet>
+    </v-card>
+
+    <!-- FCC Actions & Policy -->
+    <v-card class="pa-6 pa-md-8 mt-4" rounded="xl">
+      <h2 class="text-h5 font-weight-bold mb-4 section-title">{{ fccPolicy.title }}</h2>
+      <p v-for="(para, i) in fccPolicy.paragraphs" :key="i" class="text-body-1 mb-4">
+        {{ para }}
+      </p>
+      <div class="text-overline text-medium-emphasis mb-2">Get informed</div>
+      <v-list class="bg-transparent pa-0" density="compact">
+        <v-list-item
+          v-for="link in fccPolicy.links"
+          :key="link.url"
+          :href="link.url"
+          target="_blank"
+          rel="noopener"
+          class="px-0"
+          prepend-icon="mdi-open-in-new"
+          :title="link.label"
+        />
+      </v-list>
+    </v-card>
+
+    <!-- CCRN -->
     <v-card class="pa-6 mt-4 d-flex flex-column flex-sm-row align-sm-center ga-4" color="surface-bright" rounded="xl">
       <v-icon icon="mdi-radio-tower" color="primary" size="40" />
       <div class="flex-grow-1">

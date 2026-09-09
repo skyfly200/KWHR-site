@@ -117,6 +117,52 @@ export const aboutHistory: string[] = [
   'We have been granted permission from the Town of Ward to locate our studio next to the Town Hall. All revenue (after expenses) is used to support other Town of Ward projects. This project is run entirely on volunteer, grassroots support. Nobody gets paid. It is an experiment in community building that has lasted many years — due to the spirit of the music, the intentions of our DJs, and an overall spirit that exists within our quirky mountain town.',
 ]
 
+export interface AboutSection {
+  title: string
+  paragraphs: string[]
+}
+
+export const callToAction: AboutSection = {
+  title: 'The Call to Action (2010)',
+  paragraphs: [
+    'In response to the Fourmile Canyon Fire in 2010, the citizens of Ward met with different government agencies (including FEMA) to discuss how our community could be better prepared in the event of a similar emergency. After lengthy discussions revolving around the possible use of two-way, ham, shortwave, reverse 911, phone trees, etc., someone in the meeting asked "What about the radio station, whatever happened to it?"',
+    'A spark was born out of necessity, but it’s only part of the picture. Aside from being an important communication resource in the event of an emergency, Way High Radio serves as a link for the Indian Peaks Mountain Community: a way to bring our community together in a creative context, a way to share ideas, a way to share people’s unique talents, and a community bulletin board.',
+    'Locally, the radio station will continue to be run under the guidelines of a low power FM (LPFM) community-run station. And now, with the advantage of streaming capabilities, we are able to reach a lot more folks out there who want to hear us.',
+  ],
+}
+
+export const lookingBack: AboutSection & { reflection: { by: string; paragraphs: string[] } } = {
+  title: 'Looking Back — Highest Station on the Front Range',
+  paragraphs: [
+    'Thanks to Josh and Holly’s persistence, the radio station went on air sometime in 1997 with a mix of junk electronics and a gift of a 1-watt amplifier from this guy named Radio Mike from Michigan. The "Mighty 1 Watt" was born. A J-pole antenna was fabricated out of a stick of copper pipe. The studio was located in an extra room of the Glacier Gateway General Store and featured early DJ talents such as "The Love Doctor," Apache’s "Party on Air," Becca’s Kid’s Show, Rap Roulette, The Damo Show, Nocturnatina, The Poetry Show and more. After a couple of years it moved up to the Old Depot into "Studio D," where it remained until 2009 when we lost the space.',
+    'One Christmas Eve (around 2000 or so) Radio Mike showed up out of the blue to take the transmitter, because he heard the station had been taken over and was not being used. After showing him the new studio and explaining how we had kept it alive with yearly benefits and Planet Mind support, Mike went to the trunk of his car and returned with a gift of a 10-watt transmitter — saying we were the most successful station he had ever helped create, and the longest running.',
+    'In the summer of 2011, locals met to discuss emergency preparedness and agreed we should bring the station back to life to help keep our community informed. With the timely donation of the "Nathan Kendrick Memorial Studio," we immediately had a new home, and entered a whole new era of Way High Radio. Please help us with the history by letting us know what you can remember.',
+  ],
+  reflection: {
+    by: 'Holly, a founder, reflects on our humble beginning',
+    paragraphs: [
+      'That summer I came back from the Michigan Women’s Festival and had taken a class there called Pirate Radio. I remember thinking that Ward would be so perfect, and a radio station could truly serve the town. Josh and I both worked at Dan’s store, the Glacier Gateway, and collaborated.',
+      'I remember Mikey Parker did the first auction. Raised over 2000 dollars. River really wanted the Jim Stone knife and sheath but couldn’t keep bidding — kindly, Kate Blomer gave it to him afterward. It seemed like the whole town showed for that auction. Where is that furry Josh?',
+    ],
+  },
+}
+
+export const fccPolicy: AboutSection & { links: LinkItem[] } = {
+  title: 'FCC Actions & Policy',
+  paragraphs: [
+    'The FCC process for creating LPFM stations is essentially a game created to pretend that they are accommodating small community stations. The FCC continues to show in many ways that it works for the corporations. The loss of net neutrality is a prime example.',
+    'Educate yourself. Contact Jared Polis about this. Write letters to news outlets. Thank you for supporting this ongoing experiment in Pure Community Radio.',
+  ],
+  links: [
+    { label: 'FCC Is Cracking Down on Pirate Radio Stations — Westword', url: 'https://www.westword.com/news/fcc-is-cracking-down-on-colorados-pirate-radio-stations-10033288' },
+    { label: 'FCC Enforcement Actions Map', url: 'https://www.fcc.gov/reports-research/maps/fcc-enforcement-actions-against-pirate-radio-location/' },
+    { label: 'Longmont Observer Article', url: 'https://longmontobserver.org/lifestyle/longmonts-got-pirate-fm-radio-station/' },
+    { label: "Letter to the Editor from FCC Commissioner Michael O'Rielly", url: 'https://longmontobserver.org/opinion/letter-editor-fcc-commissioner-michael-orielly-co-pirate-radio-illegal-harmful/' },
+    { label: 'FCC Issues Pirate Warning To Colorado Town', url: 'http://www.insideradio.com/free/fcc-issues-pirate-warning-against-colorado-town/article_f7bcc5fe-168b-11e8-bf9e-3f56ee8c231c.html' },
+    { label: 'Longmont Station — Denver Post', url: 'https://www.denverpost.com/2018/01/12/longmont-pirate-radio-gets-fcc-attention/' },
+  ],
+}
+
 export const guidelines: Guideline[] = [
   {
     title: 'We play first for the community',

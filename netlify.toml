@@ -5,10 +5,11 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # Force Nuxt/Nitro to emit a plain static site (to .output/public, which Nuxt
+  # symlinks as dist/) instead of switching to the Netlify SSR preset.
+  NITRO_PRESET = "static"
 
-# `nuxt generate` prerenders every crawlable route to static HTML in
-# .output/public, which Nuxt also copies to dist/. A 200.html SPA fallback is
-# emitted for any client-only route.
+# SPA fallback for any client-only route.
 [[redirects]]
   from = "/*"
   to = "/200.html"

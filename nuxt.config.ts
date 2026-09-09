@@ -7,9 +7,12 @@ export default defineNuxtConfig({
 
   css: ['@mdi/font/css/materialdesignicons.css', '~/assets/css/app.css'],
 
-  // Fully static site generation.
+  // Fully static site generation. Force the static preset so Netlify's build
+  // image can't switch us to its SSR ('netlify') preset — that was dropping the
+  // /_nuxt assets from the deploy (broken icons + blank client navigation).
   ssr: true,
   nitro: {
+    preset: 'static',
     prerender: {
       crawlLinks: true,
       routes: ['/'],
