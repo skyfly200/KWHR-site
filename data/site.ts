@@ -219,6 +219,28 @@ export const listenHelp = [
   },
 ]
 
+export interface Archive {
+  title: string
+  url: string
+  icon: string
+}
+
+// Recordings of shows, interviews and events, hosted on the Internet Archive.
+export const archives: Archive[] = [
+  { title: 'Telluride Mushroom Festival 2018', url: 'https://archive.org/details/KWHR-TMF2018', icon: 'mdi-mushroom' },
+  { title: 'March 4th 2017', url: 'https://archive.org/details/March4th2017', icon: 'mdi-calendar-star' },
+  { title: 'Robert Randolph Phone Interview', url: 'https://archive.org/details/RobertRandalphInterview', icon: 'mdi-microphone' },
+  { title: 'Frozen Dead Guy Days 2016', url: 'https://archive.org/details/LiveFDGD2016', icon: 'mdi-snowflake' },
+  { title: 'Frozen Dead Guy Days 2015', url: 'https://archive.org/details/KWHR_FDGD_2015', icon: 'mdi-snowflake' },
+  { title: 'Campout for the Cause 2015', url: 'https://archive.org/details/WayHigh-CFTC-2015', icon: 'mdi-tent' },
+  { title: 'Telluride Blues & Brews', url: 'https://archive.org/details/CCRN-TBB2015', icon: 'mdi-guitar-acoustic' },
+  { title: 'Way High Live', url: 'https://archive.org/details/WayHighLive', icon: 'mdi-broadcast' },
+  { title: 'Rushad Eggleston at Blue Owl Books', url: 'https://archive.org/details/RushadEggleston_201601', icon: 'mdi-music' },
+  { title: 'Moon Pistol at Blue Owl Books', url: 'https://archive.org/details/MoonPistolBlueOwl', icon: 'mdi-music' },
+  { title: 'Boulder Beat at The Riverside', url: 'https://archive.org/details/BoulderBeatAtTheRiverside', icon: 'mdi-music' },
+  { title: 'Local Tracks', url: 'https://archive.org/details/SkyFly-recordings', icon: 'mdi-playlist-music' },
+]
+
 export const navItems = [
   { to: '/', label: 'Home' },
   { to: '/listen', label: 'Listen' },
@@ -226,6 +248,7 @@ export const navItems = [
   { to: '/about', label: 'About' },
   { to: '/djs', label: 'DJs' },
   { to: '/forward', label: 'Forward' },
+  { to: '/archive', label: 'Archive' },
   { to: '/guidelines', label: 'Guidelines' },
   { to: '/links', label: 'Links' },
   { to: '/contact', label: 'Contact' },
