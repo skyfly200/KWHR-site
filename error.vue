@@ -18,11 +18,11 @@ useHead({ title: 'Off the dial — Way High Radio' })
             : 'Something went sideways. Try again in a moment.' }}
         </p>
         <div class="d-flex ga-3 justify-center flex-wrap">
-          <v-btn color="primary" to="/" prepend-icon="mdi-home" @click="clearError({ redirect: '/' })">
+          <v-btn color="primary" prepend-icon="mdi-home" @click="clearError({ redirect: '/' })">
             Home
           </v-btn>
-          <v-btn variant="outlined" to="/listen" prepend-icon="mdi-play" @click="clearError({ redirect: '/listen' })">
-            Listen live
+          <v-btn variant="outlined" prepend-icon="mdi-calendar-clock" @click="clearError({ redirect: '/schedule' })">
+            Schedule
           </v-btn>
         </div>
       </v-container>

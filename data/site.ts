@@ -241,15 +241,20 @@ export const archives: Archive[] = [
   { title: 'Local Tracks', url: 'https://archive.org/details/SkyFly-recordings', icon: 'mdi-playlist-music' },
 ]
 
+// Top navigation bar.
 export const navItems = [
   { to: '/', label: 'Home' },
-  { to: '/listen', label: 'Listen' },
   { to: '/schedule', label: 'Schedule' },
   { to: '/about', label: 'About' },
   { to: '/djs', label: 'DJs' },
-  { to: '/forward', label: 'Forward' },
   { to: '/archive', label: 'Archive' },
-  { to: '/guidelines', label: 'Guidelines' },
   { to: '/links', label: 'Links' },
   { to: '/contact', label: 'Contact' },
+]
+
+// Footer links — includes the secondary pages kept out of the top nav.
+export const footerItems = [
+  ...navItems,
+  { to: '/forward', label: 'Forward' },
+  { to: '/guidelines', label: 'Guidelines' },
 ]

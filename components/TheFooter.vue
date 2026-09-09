@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { navItems, station } from '~/data/site'
+import { footerItems, station } from '~/data/site'
 const year = new Date().getFullYear()
 </script>
 
@@ -41,7 +41,7 @@ const year = new Date().getFullYear()
           <div class="text-overline text-medium-emphasis mb-2">Explore</div>
           <div class="d-flex flex-column ga-1">
             <NuxtLink
-              v-for="item in navItems"
+              v-for="item in footerItems"
               :key="item.to"
               :to="item.to"
               class="text-body-2 text-decoration-none footer-link"

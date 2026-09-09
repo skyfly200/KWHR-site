@@ -82,16 +82,6 @@ const volIcon = computed(() => {
               @update:model-value="player.setVolume($event)"
             />
           </div>
-
-          <v-btn
-            variant="tonal"
-            color="primary"
-            to="/listen"
-            class="d-none d-md-inline-flex"
-            append-icon="mdi-open-in-new"
-          >
-            Listen page
-          </v-btn>
         </div>
       </v-container>
     </v-sheet>

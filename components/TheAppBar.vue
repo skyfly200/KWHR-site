@@ -2,8 +2,10 @@
 import { ref } from 'vue'
 import { useTheme } from 'vuetify'
 import { navItems, station, media } from '~/data/site'
+import { usePlayerStore } from '~/stores/player'
 
 const theme = useTheme()
+const player = usePlayerStore()
 const drawer = ref(false)
 
 function toggleTheme() {
@@ -60,11 +62,12 @@ function toggleTheme() {
       <v-btn
         color="primary"
         variant="flat"
-        to="/listen"
         class="d-none d-sm-inline-flex ml-1"
-        prepend-icon="mdi-play"
+        :prepend-icon="player.isPlaying || player.isLoading ? 'mdi-pause' : 'mdi-play'"
+        :loading="player.isLoading"
+        @click="player.toggle()"
       >
-        Listen
+        {{ player.isPlaying ? 'Pause' : 'Listen' }}
       </v-btn>
 
       <!-- Mobile menu button -->
@@ -90,8 +93,13 @@ function toggleTheme() {
     </v-list>
     <template #append>
       <div class="pa-3">
-        <v-btn block color="primary" to="/listen" prepend-icon="mdi-play" @click="drawer = false">
-          Listen Live
+        <v-btn
+          block
+          color="primary"
+          :prepend-icon="player.isPlaying ? 'mdi-pause' : 'mdi-play'"
+          @click="player.toggle(); drawer = false"
+        >
+          {{ player.isPlaying ? 'Pause Stream' : 'Listen Live' }}
         </v-btn>
       </div>
     </template>
