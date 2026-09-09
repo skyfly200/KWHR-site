@@ -5,12 +5,11 @@
 
 [build.environment]
   NODE_VERSION = "20"
-  # Force Nuxt/Nitro to emit a plain static site (to .output/public, which Nuxt
-  # symlinks as dist/) instead of switching to the Netlify SSR preset.
+  # Force Nuxt/Nitro to emit a plain static site (to .output/public) instead of
+  # switching to the Netlify SSR preset.
   NITRO_PRESET = "static"
 
-# SPA fallback for any client-only route.
-[[redirects]]
-  from = "/*"
-  to = "/200.html"
-  status = 200
+# No catch-all rewrite: `nuxt generate` prerenders every route to its own
+# index.html, and Netlify serves those (and /_nuxt assets) directly. A blanket
+# /* -> /200.html rewrite would shadow those real pages with an empty SPA shell.
+# Unknown paths fall through to Nuxt's generated 404.
