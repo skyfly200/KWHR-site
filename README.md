@@ -1,5 +1,7 @@
 # Way High Radio — KWHR
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d6f52ac5-418b-404c-9b62-0c66ebf00a9e/deploy-status)](https://app.netlify.com/projects/wayhighradio/deploys)
+
 A modern, statically-generated site for **Way High Radio (KWHR)**, the
 volunteer-powered, commercial-free community station broadcasting on
 **90.5 FM (Ward, CO)** and streaming online.
