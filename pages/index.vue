@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { usePlayerStore } from '~/stores/player'
 import { station, djs, media, partners } from '~/data/site'
 import { avatarColor, initials } from '~/utils/avatar'
 import NowPlayingBars from '~/components/NowPlayingBars.vue'
@@ -11,7 +10,6 @@ const { data: latest } = await useAsyncData('home-latest-posts', () =>
   queryContent('/forward').sort({ date: -1 }).limit(2).find(),
 )
 
-const player = usePlayerStore()
 const featuredDjs = djs.filter((d) => !d.alumni).slice(0, 6)
 
 const features = [
@@ -26,25 +24,32 @@ const features = [
   <!-- Hero: fully vector mountain scene — crisp at any size, no photo -->
   <section class="hero">
     <div class="hero__sun" />
-    <!-- Layered mountain ranges for depth -->
-    <svg class="hero__scene" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-      <!-- far range -->
-      <path d="M0 420 L0 250 L240 150 L470 250 L680 120 L920 260 L1140 160 L1440 240 L1440 420 Z" fill="#123a2c" opacity="0.7" />
-      <!-- mid range -->
-      <path d="M0 420 L0 300 L200 210 L430 320 L640 200 L900 330 L1160 230 L1440 310 L1440 420 Z" fill="#0d2a20" />
-      <!-- near range -->
-      <path d="M0 420 L0 350 L260 280 L520 370 L760 270 L1020 380 L1280 300 L1440 360 L1440 420 Z" fill="#08160f" />
-      <!-- broadcast tower -->
-      <g stroke="#41cd91" stroke-width="3" fill="none" opacity="0.9">
-        <path d="M760 270 L748 360 M760 270 L772 360 M752 320 L768 320 M750 340 L770 340" />
-      </g>
-      <circle cx="760" cy="262" r="5" fill="#ff8c42" />
-      <!-- radio waves off the tower -->
-      <g stroke="#ff8c42" fill="none" opacity="0.55">
-        <path class="wave wave1" d="M744 262 a24 24 0 0 1 32 0" />
-        <path class="wave wave2" d="M732 262 a40 40 0 0 1 56 0" />
-        <path class="wave wave3" d="M720 262 a56 56 0 0 1 80 0" />
-      </g>
+
+    <!-- Broadcast tower standing on a ridge, with waves radiating in all
+         directions from the antenna tip. Kept in its own aspect-correct box so
+         the rings stay circular. -->
+    <div class="hero__tower" aria-hidden="true">
+      <span class="rings">
+        <span class="ring" /><span class="ring" /><span class="ring" /><span class="ring" />
+      </span>
+      <svg class="tower" viewBox="0 0 80 170" fill="none">
+        <!-- mast legs -->
+        <path d="M40 8 L14 162 M40 8 L66 162" stroke="#41cd91" stroke-width="2.5" stroke-linecap="round" />
+        <!-- cross-braces -->
+        <path
+          d="M22 150 H58 M25 130 H55 M28 108 H52 M30 86 H50 M32 64 H48 M34 44 H46 M22 150 L55 130 M58 150 L25 130 M25 130 L52 108 M55 130 L28 108 M28 108 L50 86 M52 108 L30 86 M30 86 L48 64 M50 86 L32 64"
+          stroke="#2f8f66" stroke-width="1.4" />
+        <!-- antenna + beacon -->
+        <path d="M40 8 V0" stroke="#41cd91" stroke-width="2.5" stroke-linecap="round" />
+        <circle class="beacon" cx="40" cy="2" r="4" fill="#ff8c42" />
+      </svg>
+    </div>
+
+    <!-- Layered mountain ranges (full width, never cropped) -->
+    <svg class="hero__mountains" viewBox="0 0 1440 340" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 340 L0 176 L250 92 L470 188 L690 74 L930 196 L1160 104 L1440 168 L1440 340 Z" fill="#123a2c" opacity="0.7" />
+      <path d="M0 340 L0 220 L220 150 L440 244 L660 150 L900 250 L1160 172 L1440 232 L1440 340 Z" fill="#0d2a20" />
+      <path d="M0 340 L0 280 L280 214 L540 300 L780 208 L1040 300 L1300 236 L1440 288 L1440 340 Z" fill="#08160f" />
     </svg>
 
     <v-container style="max-width: 1200px" class="hero__content py-16">
@@ -67,17 +72,11 @@ const features = [
           </p>
 
           <div class="d-flex flex-wrap ga-3">
-            <v-btn
-              size="x-large"
-              color="primary"
-              variant="flat"
-              :prepend-icon="player.isPlaying ? 'mdi-pause' : 'mdi-play'"
-              @click="player.toggle()"
-            >
-              {{ player.isPlaying ? 'Pause stream' : 'Listen live' }}
+            <v-btn size="x-large" color="primary" variant="flat" to="/schedule" prepend-icon="mdi-calendar-clock">
+              See the schedule
             </v-btn>
-            <v-btn size="x-large" variant="outlined" color="white" to="/schedule" prepend-icon="mdi-calendar-clock">
-              Schedule
+            <v-btn size="x-large" variant="outlined" color="white" to="/donate" prepend-icon="mdi-heart">
+              Donate
             </v-btn>
           </div>
 
@@ -200,7 +199,7 @@ const features = [
         {{ station.name }} is listener-supported and commercial-free. Your donation
         keeps local voices broadcasting across the mountains.
       </p>
-      <v-btn size="x-large" color="white" variant="flat" :href="station.donateUrl" prepend-icon="mdi-hand-heart">
+      <v-btn size="x-large" color="white" variant="flat" to="/donate" prepend-icon="mdi-hand-heart">
         Support {{ station.callsign }}
       </v-btn>
     </v-card>
@@ -230,14 +229,73 @@ const features = [
   background: radial-gradient(circle, rgba(255, 176, 102, 0.5) 0%, rgba(255, 140, 66, 0.18) 35%, transparent 68%);
   filter: blur(4px);
 }
-.hero__scene {
+.hero__mountains {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
-  height: min(52vh, 440px);
+  height: min(48vh, 380px);
   z-index: -1;
+}
+/* Tower sits on a ridge, high on the near range. */
+.hero__tower {
+  position: absolute;
+  z-index: -1;
+  left: 68%;
+  bottom: min(30vh, 240px);
+  width: 74px;
+  height: 156px;
+}
+@media (max-width: 960px) {
+  .hero__tower { left: auto; right: 8%; bottom: min(26vh, 210px); }
+}
+.hero__tower .tower {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+}
+.beacon {
+  animation: beacon-pulse 2.4s ease-in-out infinite;
+}
+@keyframes beacon-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+/* Concentric rings expanding outward in every direction from the tip. */
+.rings {
+  position: absolute;
+  top: 2px;              /* antenna tip */
+  left: 50%;
+  width: 0;
+  height: 0;
+}
+.ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 220px;
+  margin: -110px 0 0 -110px;
+  border: 2px solid #ff8c42;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.05);
+  animation: ring-out 3.6s ease-out infinite;
+}
+.ring:nth-child(2) { animation-delay: 0.9s; }
+.ring:nth-child(3) { animation-delay: 1.8s; }
+.ring:nth-child(4) { animation-delay: 2.7s; }
+@keyframes ring-out {
+  0% { opacity: 0.55; transform: scale(0.05); }
+  70% { opacity: 0.12; }
+  100% { opacity: 0; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ring { animation: none; opacity: 0.18; transform: scale(0.5); }
+  .ring:nth-child(3), .ring:nth-child(4) { display: none; }
+  .beacon { animation: none; }
 }
 .hero__content {
   width: 100%;
@@ -271,37 +329,6 @@ const features = [
   font-weight: 800;
   line-height: 0.98;
   color: #fff;
-}
-/* Radio waves pulsing off the tower. */
-.wave {
-  transform-origin: 760px 262px;
-  animation: wave-pulse 3s ease-out infinite;
-  opacity: 0;
-}
-.wave2 {
-  animation-delay: 1s;
-}
-.wave3 {
-  animation-delay: 2s;
-}
-@keyframes wave-pulse {
-  0% {
-    opacity: 0.7;
-    transform: scale(0.6);
-  }
-  70% {
-    opacity: 0.15;
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.15);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .wave {
-    animation: none;
-    opacity: 0.4;
-  }
 }
 .partner-logo {
   filter: grayscale(0.2);

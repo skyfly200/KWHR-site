@@ -255,6 +255,7 @@ export const navItems = [
 // Footer links — includes the secondary pages kept out of the top nav.
 export const footerItems = [
   ...navItems,
+  { to: '/donate', label: 'Donate' },
   { to: '/forward', label: 'Forward' },
   { to: '/guidelines', label: 'Guidelines' },
 ]

@@ -57,7 +57,7 @@ const year = new Date().getFullYear()
             <v-icon icon="mdi-antenna" size="16" class="mr-1 text-primary" />
             <strong>{{ f.freq }}</strong> — {{ f.city }}
           </div>
-          <v-btn color="secondary" variant="flat" class="mt-3" :href="station.donateUrl" prepend-icon="mdi-heart">
+          <v-btn color="secondary" variant="flat" class="mt-3" to="/donate" prepend-icon="mdi-heart">
             Support the station
           </v-btn>
         </v-col>
