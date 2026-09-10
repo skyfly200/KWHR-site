@@ -10,7 +10,7 @@ body {
   font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* Characterful display type for all headings + Vuetify heading classes. */
+/* Poster-strength headings: Archivo for most, Anton for big display moments. */
 h1,
 h2,
 h3,
@@ -20,9 +20,21 @@ h3,
 .text-h4,
 .text-h5,
 .font-display {
-  font-family: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif !important;
-  letter-spacing: -0.02em;
+  font-family: 'Archivo', 'Inter', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em;
 }
+
+/* Anton — the condensed poster face, used deliberately. */
+.font-anton {
+  font-family: 'Anton', 'Archivo', system-ui, sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.01em;
+}
+
+/* Full-Blast shape language: squarer corners than Vuetify's rounded defaults. */
+.rounded-xl { border-radius: 12px !important; }
+.rounded-lg { border-radius: 10px !important; }
 
 /* Playful card hover lift — used via the .lift class. */
 .lift {
@@ -45,10 +57,10 @@ h3,
   content: '';
   position: absolute;
   left: 0;
-  bottom: -6px;
-  height: 5px;
-  width: 46px;
-  border-radius: 99px;
+  bottom: -8px;
+  height: 6px;
+  width: 64px;
+  border-radius: 2px;
   background: linear-gradient(
     90deg,
     rgb(var(--v-theme-primary)),
@@ -60,7 +72,7 @@ h3,
 .grad-text {
   background: linear-gradient(
     100deg,
-    rgb(var(--v-theme-accent)),
+    rgb(var(--v-theme-primary)),
     rgb(var(--v-theme-secondary))
   );
   -webkit-background-clip: text;

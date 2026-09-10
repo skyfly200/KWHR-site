@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
-const path = `/forward/${route.params.slug}`
+const path = `/transmissions/${route.params.slug}`
 
 const { data: post } = await useAsyncData(`post-${route.params.slug}`, () =>
   queryContent(path).findOne(),
@@ -22,7 +22,7 @@ function fmtDate(d?: string) {
 
 <template>
   <v-container style="max-width: 760px" class="py-10">
-    <v-btn variant="text" to="/forward" prepend-icon="mdi-arrow-left" class="mb-4">Forward</v-btn>
+    <v-btn variant="text" to="/transmissions" prepend-icon="mdi-arrow-left" class="mb-4">Transmissions</v-btn>
 
     <template v-if="post">
       <div class="text-overline text-secondary font-weight-bold">{{ fmtDate(post.date) }}</div>
@@ -42,7 +42,7 @@ function fmtDate(d?: string) {
       text="We couldn't find that story."
     >
       <template #actions>
-        <v-btn color="primary" to="/forward">Back to Forward</v-btn>
+        <v-btn color="primary" to="/transmissions">Back to Transmissions</v-btn>
       </template>
     </v-empty-state>
   </v-container>

@@ -7,7 +7,7 @@ useHead({ title: 'Way High Radio — KWHR 90.5 FM' })
 
 // Latest blog posts from markdown content.
 const { data: latest } = await useAsyncData('home-latest-posts', () =>
-  queryContent('/forward').sort({ date: -1 }).limit(2).find(),
+  queryContent('/transmissions').sort({ date: -1 }).limit(2).find(),
 )
 
 const featuredDjs = djs.filter((d) => !d.alumni).slice(0, 6)
@@ -155,8 +155,8 @@ const features = [
     <v-row>
       <v-col cols="12" md="8">
         <div class="d-flex align-center justify-space-between mb-6">
-          <h2 class="text-h4 font-weight-bold section-title">From the blog</h2>
-          <v-btn variant="text" color="primary" to="/forward" append-icon="mdi-arrow-right">Read Forward</v-btn>
+          <h2 class="text-h4 font-weight-bold section-title">Latest transmissions</h2>
+          <v-btn variant="text" color="primary" to="/transmissions" append-icon="mdi-arrow-right">Read all</v-btn>
         </div>
         <v-card
           v-for="post in latest"
@@ -214,20 +214,33 @@ const features = [
   display: flex;
   align-items: center;
   overflow: hidden;
-  /* Deep dawn sky gradient — crisp at any size. */
-  background: linear-gradient(180deg, #06131f 0%, #0a2130 45%, #0f3a2c 100%);
+  /* Dusk sky (dark mode) — sun is setting. */
+  background: linear-gradient(180deg, #070f18 0%, #0c2233 44%, #103227 100%);
+  transition: background 0.8s ease;
 }
-/* Soft rising sun glow behind the peaks. */
+/* Dawn sky (light mode) — sun is rising. */
+.v-theme--whrLight .hero {
+  background: linear-gradient(180deg, #0e2a45 0%, #1d4e63 44%, #2b6b4f 100%);
+}
+/* The sun disc — sits behind the ridge, so it rises/sets behind the peaks.
+   Position + color shift with the theme and animate when you toggle. */
 .hero__sun {
   position: absolute;
   z-index: -2;
-  left: 50%;
-  bottom: 8%;
-  width: 520px;
-  height: 520px;
-  transform: translateX(-30%);
-  background: radial-gradient(circle, rgba(255, 176, 102, 0.5) 0%, rgba(255, 140, 66, 0.18) 35%, transparent 68%);
-  filter: blur(4px);
+  left: 52%;
+  transform: translateX(-50%);
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  bottom: 24%;
+  background: radial-gradient(circle at 50% 45%, #ffd7a1 0%, #ff9d4d 34%, #ff6b3d 60%, rgba(255, 90, 40, 0) 72%);
+  box-shadow: 0 0 120px 40px rgba(255, 110, 60, 0.32);
+  transition: bottom 0.9s ease, background 0.9s ease, box-shadow 0.9s ease;
+}
+.v-theme--whrLight .hero__sun {
+  bottom: 33%;
+  background: radial-gradient(circle at 50% 45%, #fffaf0 0%, #ffe491 32%, #ffc24d 58%, rgba(255, 194, 77, 0) 72%);
+  box-shadow: 0 0 150px 54px rgba(255, 214, 120, 0.42);
 }
 .hero__mountains {
   position: absolute;
@@ -325,9 +338,12 @@ const features = [
   }
 }
 .hero__title {
-  font-size: clamp(2.75rem, 8vw, 5.25rem);
-  font-weight: 800;
-  line-height: 0.98;
+  font-family: 'Anton', 'Archivo', system-ui, sans-serif;
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
   color: #fff;
 }
 .partner-logo {

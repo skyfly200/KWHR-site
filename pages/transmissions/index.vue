@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import PageHeader from '~/components/PageHeader.vue'
 
-useHead({ title: 'Forward — Way High Radio' })
+useHead({ title: 'Transmissions — Way High Radio' })
 
 // Pull all blog posts (newest first) from the markdown content.
 const { data: posts } = await useAsyncData('forward-list', () =>
-  queryContent('/forward').sort({ date: -1 }).find(),
+  queryContent('/transmissions').sort({ date: -1 }).find(),
 )
 
 function fmtDate(d?: string) {
@@ -20,9 +20,9 @@ function fmtDate(d?: string) {
 
 <template>
   <PageHeader
-    title="Forward"
-    icon="mdi-newspaper-variant-outline"
-    subtitle="News, stories and dispatches from Way High Radio and the community around it."
+    title="Transmissions"
+    icon="mdi-radio-tower"
+    subtitle="News, stories and dispatches from Way High Radio and the community around it — the ship's log of Pure Community Radio."
   />
 
   <v-container style="max-width: 900px" class="pb-12">

@@ -1,16 +1,23 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, onBeforeUnmount, ref } from 'vue'
 import { usePlayerStore } from '~/stores/player'
 import { station } from '~/data/site'
+import { nowNext, type NowNext } from '~/utils/schedule'
 import NowPlayingBars from './NowPlayingBars.vue'
 
 const player = usePlayerStore()
 
-const statusText = computed(() => {
-  if (player.error) return player.error
-  if (player.isLoading) return 'Connecting…'
-  if (player.isPlaying) return 'On air — live now'
-  return 'Tap play to listen live'
+// Now / next show — computed on the client (Mountain Time) and refreshed.
+const sched = ref<NowNext | null>(null)
+let timer: ReturnType<typeof setInterval> | null = null
+
+onMounted(() => {
+  const update = () => (sched.value = nowNext())
+  update()
+  timer = setInterval(update, 60_000)
+})
+onBeforeUnmount(() => {
+  if (timer) clearInterval(timer)
 })
 
 const volIcon = computed(() => {
@@ -35,19 +42,19 @@ const volIcon = computed(() => {
             @click="player.toggle()"
           />
 
-          <!-- Live indicator + status -->
+          <!-- Live indicator + current show -->
           <div class="flex-grow-1 overflow-hidden">
             <div class="d-flex align-center ga-2">
               <NowPlayingBars :active="player.isPlaying" />
               <span class="text-body-2 font-weight-bold text-truncate">
-                {{ station.name }}
+                {{ sched?.current.title ?? station.name }}
               </span>
               <v-chip
                 v-if="player.isPlaying"
                 size="x-small"
                 color="error"
                 variant="flat"
-                class="font-weight-bold"
+                class="font-weight-bold flex-shrink-0"
               >
                 LIVE
               </v-chip>
@@ -56,12 +63,30 @@ const volIcon = computed(() => {
               class="text-caption text-truncate"
               :class="player.error ? 'text-error' : 'text-medium-emphasis'"
             >
-              {{ statusText }}
+              <template v-if="player.error">{{ player.error }}</template>
+              <template v-else-if="player.isLoading">Connecting…</template>
+              <template v-else-if="sched?.current.host">
+                {{ sched.current.live ? 'Now playing' : 'On air' }} · {{ sched.current.host }}
+              </template>
+              <template v-else>Way High Radio — live</template>
             </div>
           </div>
 
+          <!-- Up next (desktop only) -->
+          <div v-if="sched?.next" class="upnext d-none d-md-block flex-shrink-0">
+            <div class="text-overline text-medium-emphasis" style="line-height: 1">Up next</div>
+            <div class="text-caption font-weight-bold text-truncate" style="max-width: 200px">
+              {{ sched.next.title }}
+            </div>
+            <div class="text-caption text-medium-emphasis" style="line-height: 1">
+              {{ sched.next.start }}
+            </div>
+          </div>
+
+          <v-divider v-if="sched?.next" vertical class="d-none d-md-block mx-1" style="height: 34px" />
+
           <!-- Volume (desktop) -->
-          <div class="d-none d-sm-flex align-center ga-1" style="width: 160px">
+          <div class="d-none d-sm-flex align-center ga-1 flex-shrink-0" style="width: 150px">
             <v-btn
               :icon="volIcon"
               variant="text"

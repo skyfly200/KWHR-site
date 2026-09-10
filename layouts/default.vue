@@ -5,6 +5,7 @@ import { usePlayerStore } from '~/stores/player'
 import TheAppBar from '~/components/TheAppBar.vue'
 import TheFooter from '~/components/TheFooter.vue'
 import ThePlayerBar from '~/components/ThePlayerBar.vue'
+import EclipseOverlay from '~/components/EclipseOverlay.vue'
 
 const theme = useTheme()
 const player = usePlayerStore()
@@ -57,6 +58,9 @@ function playFromHint() {
 
     <!-- Persistent, app-wide stream player. Lives outside the routed content. -->
     <ThePlayerBar />
+
+    <!-- Easter egg: hold the theme toggle 3s → solar eclipse. -->
+    <EclipseOverlay />
 
     <!-- First-visit hint: the stream plays from the bar at the bottom. -->
     <v-snackbar

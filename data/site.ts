@@ -241,21 +241,65 @@ export const archives: Archive[] = [
   { title: 'Local Tracks', url: 'https://archive.org/details/SkyFly-recordings', icon: 'mdi-playlist-music' },
 ]
 
-// Top navigation bar.
-export const navItems = [
+// Weekly show schedule (Mountain Time) used for "now / next" in the player bar.
+// EDITABLE: keep this in sync with the Google Calendar on the Schedule page,
+// or wire it to the live calendar later. day: 0 = Sunday … 6 = Saturday.
+export interface ShowSlot {
+  day: number
+  start: string // "HH:MM" 24h, Mountain Time
+  end: string // "HH:MM" (use "24:00" for midnight)
+  title: string
+  host?: string
+}
+
+export const weeklySchedule: ShowSlot[] = [
+  { day: 0, start: '08:00', end: '10:00', title: 'Sunday Morning Excursion', host: 'Captain Trips' },
+  { day: 0, start: '20:00', end: '22:00', title: 'The Indigenous Hours', host: 'Jaimie' },
+  { day: 1, start: '22:00', end: '24:00', title: 'The Late Night Groove', host: 'Jaimie' },
+  { day: 2, start: '18:00', end: '20:00', title: 'The Dub Shack', host: 'DJ Datura' },
+  { day: 3, start: '20:00', end: '22:00', title: 'Awakenings', host: 'DJ Datura' },
+  { day: 4, start: '19:00', end: '21:00', title: 'Circular Logic', host: 'CP3O' },
+  { day: 5, start: '20:00', end: '23:00', title: 'The Crisp Friday Show', host: 'Pinky Hues' },
+  { day: 6, start: '09:00', end: '11:00', title: 'Saturday Smooth', host: 'DJ Teo' },
+  { day: 6, start: '21:00', end: '23:00', title: 'Rock & Roll Then and Now', host: 'Porsche Steve' },
+]
+
+// Shown when no specific show is scheduled — the station runs on automation.
+export const freeformShow = { title: 'Free-form mix', host: 'CHIP on the decks' }
+
+export interface NavNode {
+  label: string
+  to?: string
+  children?: { to: string; label: string }[]
+}
+
+// Top navigation bar. "Explore" is a dropdown grouping the deeper pages.
+export const navItems: NavNode[] = [
   { to: '/', label: 'Home' },
-  { to: '/schedule', label: 'Schedule' },
   { to: '/about', label: 'About' },
-  { to: '/djs', label: 'DJs' },
-  { to: '/archive', label: 'Archive' },
-  { to: '/links', label: 'Links' },
+  { to: '/schedule', label: 'Schedule' },
+  {
+    label: 'Explore',
+    children: [
+      { to: '/djs', label: 'DJs' },
+      { to: '/archive', label: 'Archive' },
+      { to: '/transmissions', label: 'Transmissions' },
+      { to: '/links', label: 'Links' },
+    ],
+  },
   { to: '/contact', label: 'Contact' },
 ]
 
-// Footer links — includes the secondary pages kept out of the top nav.
+// Footer links — flat list of everything worth surfacing.
 export const footerItems = [
-  ...navItems,
-  { to: '/donate', label: 'Donate' },
-  { to: '/forward', label: 'Forward' },
+  { to: '/', label: 'Home' },
+  { to: '/about', label: 'About' },
+  { to: '/schedule', label: 'Schedule' },
+  { to: '/djs', label: 'DJs' },
+  { to: '/archive', label: 'Archive' },
+  { to: '/transmissions', label: 'Transmissions' },
+  { to: '/links', label: 'Links' },
   { to: '/guidelines', label: 'Guidelines' },
+  { to: '/donate', label: 'Donate' },
+  { to: '/contact', label: 'Contact' },
 ]
