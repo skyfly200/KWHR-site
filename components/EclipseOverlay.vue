@@ -66,24 +66,28 @@ const ui = useUiStore()
   animation: corona 6s ease-in-out forwards;
 }
 @keyframes corona {
-  0%, 30% { opacity: 0; }
-  46%, 60% { opacity: 1; }
-  78%, 100% { opacity: 0; }
+  0%, 40% { opacity: 0; }
+  46%, 56% { opacity: 1; }
+  66%, 100% { opacity: 0; }
 }
-/* Moon crosses left → right, covering the sun at the midpoint. */
+/* Moon rises along the ecliptic (an arc) onto the stationary sun, covers it at
+   totality, then continues down the far side. */
 .moon {
   position: absolute;
   inset: 30px;
   border-radius: 50%;
   background: #0a0d13;
   box-shadow: inset 8px -6px 14px rgba(255, 255, 255, 0.05);
-  transform: translateX(-160%);
-  animation: moon-cross 6s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  transform: translate(-155%, 115%);
+  animation: moon-arc 6s ease-in-out forwards;
 }
-@keyframes moon-cross {
-  0% { transform: translateX(-160%); }
-  50% { transform: translateX(0); }
-  100% { transform: translateX(160%); }
+@keyframes moon-arc {
+  0% { transform: translate(-155%, 115%); }
+  22% { transform: translate(-78%, 30%); }
+  46% { transform: translate(0%, 0%); }
+  56% { transform: translate(0%, 0%); }
+  78% { transform: translate(80%, 30%); }
+  100% { transform: translate(155%, 115%); }
 }
 .caption {
   position: absolute;

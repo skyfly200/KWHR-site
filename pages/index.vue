@@ -21,38 +21,52 @@ const features = [
 </script>
 
 <template>
-  <!-- Hero: fully vector mountain scene — crisp at any size, no photo -->
+  <!-- Hero: fully vector mountain scene — crisp at any size, no photo.
+       Layers stack back→front: sun/moon, back ranges, tower, front range. -->
   <section class="hero">
-    <div class="hero__sun" />
+    <!-- Celestial bodies (behind the mountains) -->
+    <div class="hero__sun" aria-hidden="true" />
+    <div class="hero__moon" aria-hidden="true" />
 
-    <!-- Broadcast tower standing on a ridge, with waves radiating in all
-         directions from the antenna tip. Kept in its own aspect-correct box so
-         the rings stay circular. -->
+    <!-- Back ranges (far + mid) with snow caps -->
+    <svg class="hero__mtn hero__mtn--back" viewBox="0 0 1440 340" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 340 L0 176 L250 92 L470 188 L690 74 L930 196 L1160 104 L1440 168 L1440 340 Z" fill="#16362a" opacity="0.75" />
+      <path d="M0 340 L0 220 L220 150 L440 244 L660 150 L900 250 L1160 172 L1440 232 L1440 340 Z" fill="#0e2a20" />
+      <!-- snow caps on the mid ridge -->
+      <g fill="#eaf2ff" opacity="0.92">
+        <path d="M198 166 L220 150 L242 166 Z" />
+        <path d="M638 166 L660 150 L682 166 Z" />
+        <path d="M1138 188 L1160 172 L1182 188 Z" />
+      </g>
+    </svg>
+
+    <!-- Broadcast tower — centered, standing on the second (mid) ridge. Waves
+         radiate in all directions from the antenna tip. -->
     <div class="hero__tower" aria-hidden="true">
       <span class="rings">
         <span class="ring" /><span class="ring" /><span class="ring" /><span class="ring" />
       </span>
       <svg class="tower" viewBox="0 0 80 170" fill="none">
-        <!-- mast legs -->
         <path d="M40 8 L14 162 M40 8 L66 162" stroke="#41cd91" stroke-width="2.5" stroke-linecap="round" />
-        <!-- cross-braces -->
         <path
           d="M22 150 H58 M25 130 H55 M28 108 H52 M30 86 H50 M32 64 H48 M34 44 H46 M22 150 L55 130 M58 150 L25 130 M25 130 L52 108 M55 130 L28 108 M28 108 L50 86 M52 108 L30 86 M30 86 L48 64 M50 86 L32 64"
           stroke="#2f8f66" stroke-width="1.4" />
-        <!-- antenna + beacon -->
         <path d="M40 8 V0" stroke="#41cd91" stroke-width="2.5" stroke-linecap="round" />
         <circle class="beacon" cx="40" cy="2" r="4" fill="#ff8c42" />
       </svg>
     </div>
 
-    <!-- Layered mountain ranges (full width, never cropped) -->
-    <svg class="hero__mountains" viewBox="0 0 1440 340" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0 340 L0 176 L250 92 L470 188 L690 74 L930 196 L1160 104 L1440 168 L1440 340 Z" fill="#123a2c" opacity="0.7" />
-      <path d="M0 340 L0 220 L220 150 L440 244 L660 150 L900 250 L1160 172 L1440 232 L1440 340 Z" fill="#0d2a20" />
+    <!-- Front range (occludes the tower base so it sits on the mid ridge) -->
+    <svg class="hero__mtn hero__mtn--front" viewBox="0 0 1440 340" preserveAspectRatio="none" aria-hidden="true">
       <path d="M0 340 L0 280 L280 214 L540 300 L780 208 L1040 300 L1300 236 L1440 288 L1440 340 Z" fill="#08160f" />
+      <g fill="#eaf2ff" opacity="0.85">
+        <path d="M258 230 L280 214 L302 230 Z" />
+        <path d="M758 224 L780 208 L802 224 Z" />
+        <path d="M1278 252 L1300 236 L1322 252 Z" />
+      </g>
     </svg>
 
-    <v-container style="max-width: 1200px" class="hero__content py-16">
+    <v-container style="max-width: 1200px; position: relative; z-index: 5" class="hero__content py-16">
       <v-row align="center">
         <v-col cols="12" md="7">
           <v-chip color="error" variant="flat" size="small" class="mb-4 font-weight-bold px-3">
@@ -60,7 +74,7 @@ const features = [
             <span class="ml-2">ON AIR · {{ station.callsign }}</span>
           </v-chip>
           <h1 class="hero__title mb-4">
-            We’re taking radio <span class="grad-text">higher</span>.
+            We’re taking radio <span class="grad-text">higher</span><span class="hero__dot" aria-hidden="true" />
           </h1>
           <p class="text-h6 font-weight-medium mb-2" style="color: #f1f5f9">
             {{ station.name }} — {{ station.tagline }}
@@ -214,54 +228,90 @@ const features = [
   display: flex;
   align-items: center;
   overflow: hidden;
-  /* Dusk sky (dark mode) — sun is setting. */
-  background: linear-gradient(180deg, #070f18 0%, #0c2233 44%, #103227 100%);
-  transition: background 0.8s ease;
+  /* Default (dark) = dusk → night: sun has set, moon is up. */
+  background: linear-gradient(180deg, #05080f 0%, #0a1826 46%, #0d2a20 100%);
+  transition: background 0.9s ease;
 }
-/* Dawn sky (light mode) — sun is rising. */
+/* Light = dawn: sun is rising. */
 .v-theme--whrLight .hero {
-  background: linear-gradient(180deg, #0e2a45 0%, #1d4e63 44%, #2b6b4f 100%);
+  background: linear-gradient(180deg, #123a5c 0%, #2a6478 46%, #2f6f52 100%);
 }
-/* The sun disc — sits behind the ridge, so it rises/sets behind the peaks.
-   Position + color shift with the theme and animate when you toggle. */
+
+/* ---- Sun ---- default (dark): fully set behind the peaks, only a dusk glow. */
 .hero__sun {
   position: absolute;
-  z-index: -2;
-  left: 52%;
+  z-index: 1;
+  left: 46%;
   transform: translateX(-50%);
-  width: 210px;
-  height: 210px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  bottom: 24%;
-  background: radial-gradient(circle at 50% 45%, #ffd7a1 0%, #ff9d4d 34%, #ff6b3d 60%, rgba(255, 90, 40, 0) 72%);
-  box-shadow: 0 0 120px 40px rgba(255, 110, 60, 0.32);
+  bottom: -6%;
+  background: radial-gradient(circle at 50% 45%, #ff8a4d 0%, #e8552b 45%, rgba(200, 60, 30, 0) 70%);
+  box-shadow: 0 0 120px 40px rgba(255, 110, 55, 0.18);
   transition: bottom 0.9s ease, background 0.9s ease, box-shadow 0.9s ease;
 }
+/* Light: sun has risen well above the ridge, bright gold. */
 .v-theme--whrLight .hero__sun {
-  bottom: 33%;
+  bottom: 34%;
   background: radial-gradient(circle at 50% 45%, #fffaf0 0%, #ffe491 32%, #ffc24d 58%, rgba(255, 194, 77, 0) 72%);
-  box-shadow: 0 0 150px 54px rgba(255, 214, 120, 0.42);
+  box-shadow: 0 0 150px 54px rgba(255, 214, 120, 0.45);
 }
-.hero__mountains {
+
+/* ---- Moon ---- default (dark): risen, pale, off to one side. */
+.hero__moon {
+  position: absolute;
+  z-index: 1;
+  left: 74%;
+  bottom: 60%;
+  width: 98px;
+  height: 98px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%, #f2f6ff 0%, #cfd8ec 52%, #9aa8c6 100%);
+  box-shadow: 0 0 42px 8px rgba(200, 215, 255, 0.22);
+  opacity: 1;
+  transition: bottom 0.9s ease, opacity 0.7s ease;
+}
+/* subtle craters */
+.hero__moon::before,
+.hero__moon::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(120, 135, 165, 0.35);
+}
+.hero__moon::before { width: 17px; height: 17px; top: 30%; left: 26%; }
+.hero__moon::after { width: 11px; height: 11px; top: 56%; left: 55%; }
+/* Light: moon has set below the ridge. */
+.v-theme--whrLight .hero__moon {
+  bottom: -18%;
+  opacity: 0;
+}
+
+/* ---- Mountain range layers ---- */
+.hero__mtn {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
-  height: min(48vh, 380px);
-  z-index: -1;
+  height: min(52vh, 400px);
 }
-/* Tower sits on a ridge, high on the near range. */
+.hero__mtn--back { z-index: 2; }
+.hero__mtn--front { z-index: 4; }
+
+/* Tower centered, standing on the second (mid) ridge; front range covers its base. */
 .hero__tower {
   position: absolute;
-  z-index: -1;
-  left: 68%;
-  bottom: min(30vh, 240px);
+  z-index: 3;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: min(30vh, 236px);
   width: 74px;
   height: 156px;
 }
 @media (max-width: 960px) {
-  .hero__tower { left: auto; right: 8%; bottom: min(26vh, 210px); }
+  .hero__tower { bottom: min(27vh, 208px); }
 }
 .hero__tower .tower {
   position: relative;
@@ -345,6 +395,16 @@ const features = [
   letter-spacing: 0.005em;
   text-transform: uppercase;
   color: #fff;
+}
+/* Deliberate round accent "period" after the headline. */
+.hero__dot {
+  display: inline-block;
+  width: 0.14em;
+  height: 0.14em;
+  border-radius: 50%;
+  background: rgb(var(--v-theme-secondary));
+  margin-left: 0.06em;
+  vertical-align: baseline;
 }
 .partner-logo {
   filter: grayscale(0.2);
